@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * @file
+ * Contains class MyNameIsBartPayPalPPSPaymentExecution.
+ */
+
+/**
+ * Tests payment execution.
+ */
+class MyNameIsBartPayPalPPSPaymentExecution extends PaymentWebTestCase {
+
+  static function getInfo() {
+    return array(
+      'name' => 'Payment execution',
+      'group' => 'PayPal Payments Standard',
+      'dependencies' => array('mynameisbart_paypal_pps_test'),
+    );
+  }
+
+  function setUp(array $modules = array()) {
+    parent::setUp(array_merge($modules, array('mynameisbart_paypal_pps_test')));
+  }
+
+  /**
+   * Tests payment execution.
+   */
+  function testPaymentExecution() {
+    $payment_method = $this->paymentMethodCreate(2, payment_method_controller_load('MyNameIsBartPayPalPPSPaymentMethodController'));
+    $payment_method->controller_data = array(
+      'email_address' => 'b@b.b',
+      'server' => MyNameIsBartPayPalPPSPaymentMethodController::SANDBOX_SERVER_URL,
+    );
+    entity_save('payment_method', $payment_method);
+    $this->assertPaymentExecution($payment_method);
+  }
+
+  /**
+   * Tests payment execution using the sandbox server.
+   */
+  function testSandboxPaymentExecution() {
+    $payment_method = $this->paymentMethodCreate(2, payment_method_controller_load('MyNameIsBartPayPalPPSPaymentMethodController'));
+    $payment_method->controller_data = array(
+      'server' => MyNameIsBartPayPalPPSPaymentMethodController::SANDBOX_SERVER_URL,
+    );
+    entity_save('payment_method', $payment_method);
+    $this->assertPaymentExecution($payment_method);
+  }
+
+  /**
+   * Asserts a correct payment execution.
+   */
+  function assertPaymentExecution(PaymentMethod $payment_method) {
+    $data = array(
+      
+    );
+    $this->drupalPost('mynameisbart_paypal_pps_test/form/' . $payment_method->pmid, $data, t('Pay'));
+    $this->drupalPost(NULL, array(), t('Continue'));
+    $this->drupalPost(NULL, array(), t('Submit'));
+    $this->assertURL('<front>');
+  }
+}
