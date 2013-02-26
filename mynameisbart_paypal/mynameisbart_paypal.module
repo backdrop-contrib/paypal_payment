@@ -21,6 +21,11 @@ define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_DENIED', 'MYNAMEISBART_PAYPAL_PAYMENT
 define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REFUNDED', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REFUNDED');
 
 /**
+ * A payment that was partially refunded.
+ */
+define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_PARTIALLY_REFUNDED', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_PARTIALLY_REFUNDED');
+
+/**
  * A payment that was reversed.
  */
 define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REVERSED', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REVERSED');
@@ -75,6 +80,11 @@ define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_UNILATERAL', 'MYNAMEISBART_PAYPAL_PAY
 define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_INTL', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_INTL');
 
 /**
+ * A payment that was successful, but of which the funds are held back.
+ */
+define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_COMPLETED_FUNDS_HELD', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_COMPLETED_FUNDS_HELD');
+
+/**
  * Implements hook_payment_status_info().
  */
 function mynameisbart_paypal_payment_status_info() {
@@ -94,6 +104,11 @@ function mynameisbart_paypal_payment_status_info() {
       'parent' => PAYMENT_STATUS_FAILED,
       'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REFUNDED,
       'title' => t('Refunded'),
+    )),
+    new PaymentStatusInfo(array(
+      'parent' => PAYMENT_STATUS_FAILED,
+      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_PARTIALLY_REFUNDED,
+      'title' => t('Partially refunded'),
     )),
     new PaymentStatusInfo(array(
       'parent' => PAYMENT_STATUS_FAILED,
@@ -148,6 +163,11 @@ function mynameisbart_paypal_payment_status_info() {
       'parent' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
       'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_INTL,
       'title' => t('Waiting for capture (international payment)'),
+    )),
+    new PaymentStatusInfo(array(
+      'parent' => PAYMENT_STATUS_SUCCESS,
+      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_COMPLETED_FUNDS_HELD,
+      'title' => t('Completed (funds are being held back)'),
     )),
   );
 }
