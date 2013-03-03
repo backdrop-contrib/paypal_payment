@@ -1,7 +1,0 @@
-name = PayPal IPN tests
-description = Supports PayPal IPN testing.
-package = Payment
-dependencies[] = mynameisbart_paypal_ipn
-core = 7.x
-hidden = TRUE
-files[] = includes/MyNameIsBartPayPalIPNTestPaymentMethodController.inc

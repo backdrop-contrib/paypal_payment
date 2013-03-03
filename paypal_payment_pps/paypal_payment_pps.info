@@ -1,0 +1,12 @@
+name = PayPal Payments Standard
+description = Provides a <a href="https://www.paypal.com/webapps/mpp/paypal-payments-standard">PayPal Payments Standard</a> payment method type.
+package = Payment
+dependencies[] = paypal_payment
+dependencies[] = paypal_payment_ipn
+core = 7.x
+php = 5.3
+files[] = includes/PayPalPaymentPPSPaymentMethodController.inc
+files[] = tests/PayPalPaymentPPSPaymentExecution.test
+files[] = tests/PayPalPaymentPPSPaymentMethodCRUD.test
+files[] = tests/PayPalPaymentPPSPaymentMethodUI.test
+files[] = tests/PayPalPaymentPPSWebTestCase.test

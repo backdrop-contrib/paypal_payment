@@ -1,0 +1,6 @@
+name = PayPal Express Checkout tests
+description = Supports PayPal Express Checkout testing.
+package = Payment
+dependencies[] = paypal_payment_ec
+core = 7.x
+hidden = TRUE

@@ -1,0 +1,6 @@
+name = PayPal Payments Standard tests
+description = Supports PayPal Payments Standard testing.
+package = Payment
+dependencies[] = paypal_payment_pps
+core = 7.x
+hidden = TRUE
