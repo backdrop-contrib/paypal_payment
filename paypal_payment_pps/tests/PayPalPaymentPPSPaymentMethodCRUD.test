@@ -8,7 +8,7 @@
 /**
  * Tests PayPalPaymentPPSPaymentMethodController CRUD.
  */
-class PayPalPaymentPPSPaymentMethodCRUD extends PayPalPaymentPPSWebTestCase {
+class PayPalPaymentPPSPaymentMethodCRUD extends PayPalPaymentWebTestCase {
 
   /**
    * Implements DrupalTestCase::getInfo().
@@ -38,7 +38,7 @@ class PayPalPaymentPPSPaymentMethodCRUD extends PayPalPaymentPPSWebTestCase {
       'controller_data' => $controller->controller_data_defaults,
     ));
     entity_save('payment_method', $payment_method);
-    $this->assertTrue($this->paymentMethodControllerDataExists($payment_method));
+    $this->assertTrue($this->paymentMethodControllerDataExists($payment_method, 'paypal_payment_pps_payment_method'));
 
     // Test loading a payment method.
     $payment_method_loaded = entity_load_single('payment_method', $payment_method->pmid);
@@ -50,7 +50,7 @@ class PayPalPaymentPPSPaymentMethodCRUD extends PayPalPaymentPPSWebTestCase {
       'capture' => $controller::CAPTURE_MANUAL,
     );
     entity_save('payment_method', $payment_method);
-    $this->assertTrue($this->paymentMethodControllerDataExists($payment_method));
+    $this->assertTrue($this->paymentMethodControllerDataExists($payment_method, 'paypal_payment_pps_payment_method'));
 
     // Test deleting a payment method.
     entity_delete('payment_method', $payment_method->pmid);

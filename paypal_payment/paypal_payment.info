@@ -3,3 +3,4 @@ description = Provides generic PayPal functionality.
 package = Payment
 dependencies[] = payment
 core = 7.x
+files[] = tests/PayPalPaymentWebTestCase.test

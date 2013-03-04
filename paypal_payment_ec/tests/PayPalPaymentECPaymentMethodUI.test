@@ -8,7 +8,7 @@
 /**
  * Tests the PayPalPaymentECPaymentMethodController UI.
  */
-class PayPalPaymentECPaymentMethodUI extends PayPalPaymentECWebTestCase {
+class PayPalPaymentECPaymentMethodUI extends PayPalPaymentWebTestCase {
 
   /**
    * Implements DrupalTestCase::getInfo().

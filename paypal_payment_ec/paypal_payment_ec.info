@@ -11,4 +11,4 @@ files[] = tests/PayPalPaymentECPaymentExecution.test
 files[] = tests/PayPalPaymentECPaymentMethodControllerTest.test
 files[] = tests/PayPalPaymentECPaymentMethodCRUD.test
 files[] = tests/PayPalPaymentECPaymentMethodUI.test
-files[] = tests/PayPalPaymentECWebTestCase.test
+files[] = tests/PayPalPaymentWebTestCase.test
