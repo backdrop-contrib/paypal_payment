@@ -14,12 +14,12 @@ abstract class PayPalPaymentIPNController {
   /**
    * The PayPal IPN server URL.
    */
-  const MYNAMEISBART_PAYPAL_IPN_SERVER_URL = 'https://www.paypal.com/cgi-bin/webscr';
+  const PAYPAL_IPN_SERVER_URL = 'https://www.paypal.com/cgi-bin/webscr';
 
   /**
    * The PayPal IPN sandbox server URL.
    */
-  const MYNAMEISBART_PAYPAL_IPN_SANDBOX_SERVER_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+  const PAYPAL_IPN_SANDBOX_SERVER_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
 
   /**
    * Loads an IPN.
@@ -78,7 +78,7 @@ abstract class PayPalPaymentIPNController {
    * Returns the IPN URL.
    */
   static function URL() {
-    return url(MYNAMEISBART_PAYPAL_IPN_LISTENER_PATH, array(
+    return url(PAYPAL_IPN_LISTENER_PATH, array(
       'absolute' => TRUE,
     ));
   }
@@ -102,7 +102,7 @@ abstract class PayPalPaymentIPNController {
     $data = implode('&', $data);
 
     // Execute the request.
-    $url = empty($ipn_variables['test_ipn']) ? self::MYNAMEISBART_PAYPAL_IPN_SANDBOX_SERVER_URL : self::MYNAMEISBART_PAYPAL_IPN_SERVER_URL;
+    $url = empty($ipn_variables['test_ipn']) ? self::PAYPAL_IPN_SANDBOX_SERVER_URL : self::PAYPAL_IPN_SERVER_URL;
     // Use url() so we can alter the request using hook_url_outbound_alter().
     $url = url($url, array(
       'external' => TRUE,
@@ -229,15 +229,15 @@ abstract class PayPalPaymentIPNController {
    */
   static function statusMap() {
     return array(
-      'Canceled_Reversal' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_CANCELLED_REVERSAL,
+      'Canceled_Reversal' => PAYPAL_PAYMENT_STATUS_CANCELLED_REVERSAL,
       'Completed' => PAYMENT_STATUS_SUCCESS,
       'Created' => PAYMENT_STATUS_NEW,
-      'Denied' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_DENIED,
+      'Denied' => PAYPAL_PAYMENT_STATUS_DENIED,
       'Expired' => PAYMENT_STATUS_EXPIRED,
       'Failed' => PAYMENT_STATUS_FAILED,
       'Pending' => PAYMENT_STATUS_PENDING,
-      'Refunded' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REFUNDED,
-      'Reversed' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REVERSED,
+      'Refunded' => PAYPAL_PAYMENT_STATUS_REFUNDED,
+      'Reversed' => PAYPAL_PAYMENT_STATUS_REVERSED,
       // @todo How do Processed and Completed relate to each other?
       'Processed' => PAYMENT_STATUS_SUCCESS,
       'Voided' => PAYMENT_STATUS_AUTHORIZATION_FAILED,
@@ -252,16 +252,16 @@ abstract class PayPalPaymentIPNController {
    */
   static function pendingStatusMap() {
     return array(
-      'address' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_ADDRESS,
-      'authorization' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
-      'echeck' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CLEARANCE,
-      'intl' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_INTL,
-      'multi-currency' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_MULTI_CURRENCY,
-      'order' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
-      'paymentreview' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REVIEW,
-      'unilateral' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_UNILATERAL,
-      'upgrade' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_UPGRADE,
-      'verify' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_VERIFY,
+      'address' => PAYPAL_PAYMENT_STATUS_ADDRESS,
+      'authorization' => PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
+      'echeck' => PAYPAL_PAYMENT_STATUS_WAITING_FOR_CLEARANCE,
+      'intl' => PAYPAL_PAYMENT_STATUS_INTL,
+      'multi-currency' => PAYPAL_PAYMENT_STATUS_MULTI_CURRENCY,
+      'order' => PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
+      'paymentreview' => PAYPAL_PAYMENT_STATUS_REVIEW,
+      'unilateral' => PAYPAL_PAYMENT_STATUS_UNILATERAL,
+      'upgrade' => PAYPAL_PAYMENT_STATUS_UPGRADE,
+      'verify' => PAYPAL_PAYMENT_STATUS_VERIFY,
       'other' => PAYMENT_STATUS_PENDING,
     );
   }

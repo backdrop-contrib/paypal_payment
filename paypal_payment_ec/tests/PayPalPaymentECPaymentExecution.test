@@ -33,7 +33,7 @@ class PayPalPaymentECPaymentExecution extends PaymentWebTestCase {
    * Tests payment execution.
    */
   function testPaymentExecutionSuccessManualCapture() {
-    $this->assertPaymentExecution(PayPalPaymentECPaymentMethodController::SERVER_PRODUCTION, PayPalPaymentECPaymentMethodController::CAPTURE_MANUAL, MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE);
+    $this->assertPaymentExecution(PayPalPaymentECPaymentMethodController::SERVER_PRODUCTION, PayPalPaymentECPaymentMethodController::CAPTURE_MANUAL, PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE);
   }
 
   /**

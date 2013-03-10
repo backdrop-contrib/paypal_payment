@@ -21,7 +21,7 @@ function paypal_payment_ipn_test_menu() {
  * Implements hook_url_outbound_alter().
  */
 function paypal_payment_ipn_test_url_outbound_alter(&$path, array &$options, $original_path) {
-  if (in_array($original_path, array(PayPalPaymentIPNController::MYNAMEISBART_PAYPAL_IPN_SERVER_URL, PayPalPaymentIPNController::MYNAMEISBART_PAYPAL_IPN_SANDBOX_SERVER_URL))) {
+  if (in_array($original_path, array(PayPalPaymentIPNController::PAYPAL_IPN_SERVER_URL, PayPalPaymentIPNController::PAYPAL_IPN_SANDBOX_SERVER_URL))) {
     $path = url('paypal_payment_ipn_test/paypal-ipn-server', array(
       'absolute' => TRUE,
     ));

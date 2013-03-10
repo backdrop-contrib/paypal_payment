@@ -8,13 +8,13 @@
 /**
  * The URL path to receive IPN requests at.
  */
-define('MYNAMEISBART_PAYPAL_IPN_LISTENER_PATH', 'paypal_payment_ipn');
+define('PAYPAL_IPN_LISTENER_PATH', 'paypal_payment_ipn');
 
 /**
  * Implements hook_menu().
  */
 function paypal_payment_ipn_menu() {
-  $items[MYNAMEISBART_PAYPAL_IPN_LISTENER_PATH] = array(
+  $items[PAYPAL_IPN_LISTENER_PATH] = array(
     'load arguments' => array('payment_method'),
     'page callback' => 'paypal_payment_ipn_post',
     'page arguments' => array(1),

@@ -408,10 +408,10 @@ class PayPalPaymentECPaymentMethodController extends PaymentMethodController {
    */
   function statusMap() {
     return array(
-      'Canceled-Reversal' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_CANCELLED_REVERSAL,
+      'Canceled-Reversal' => PAYPAL_PAYMENT_STATUS_CANCELLED_REVERSAL,
       'In-Progress' => PAYMENT_STATUS_PENDING,
-      'Partially-Refunded' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_PARTIALLY_REFUNDED,
-      'Completed-Funds-Held' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_COMPLETED_FUNDS_HELD,
+      'Partially-Refunded' => PAYPAL_PAYMENT_STATUS_PARTIALLY_REFUNDED,
+      'Completed-Funds-Held' => PAYPAL_PAYMENT_STATUS_COMPLETED_FUNDS_HELD,
     ) + PayPalPaymentIPNController::statusMap();
   }
 

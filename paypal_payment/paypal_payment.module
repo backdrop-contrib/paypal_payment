@@ -8,81 +8,81 @@
 /**
  * A payment of which the reversal was cancelled.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_CANCELLED_REVERSAL', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_CANCELLED_REVERSAL');
+define('PAYPAL_PAYMENT_STATUS_CANCELLED_REVERSAL', 'PAYPAL_PAYMENT_STATUS_CANCELLED_REVERSAL');
 
 /**
  * A payment that was denied by the payee.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_DENIED', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_DENIED');
+define('PAYPAL_PAYMENT_STATUS_DENIED', 'PAYPAL_PAYMENT_STATUS_DENIED');
 
 /**
  * A payment that was refunded.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REFUNDED', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REFUNDED');
+define('PAYPAL_PAYMENT_STATUS_REFUNDED', 'PAYPAL_PAYMENT_STATUS_REFUNDED');
 
 /**
  * A payment that was partially refunded.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_PARTIALLY_REFUNDED', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_PARTIALLY_REFUNDED');
+define('PAYPAL_PAYMENT_STATUS_PARTIALLY_REFUNDED', 'PAYPAL_PAYMENT_STATUS_PARTIALLY_REFUNDED');
 
 /**
  * A payment that was reversed.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REVERSED', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REVERSED');
+define('PAYPAL_PAYMENT_STATUS_REVERSED', 'PAYPAL_PAYMENT_STATUS_REVERSED');
 
 /**
  * A payment that is authorized, but still needs to be captured.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE');
+define('PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE', 'PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE');
 
 /**
  * A payment that cannot be captured, because the currency it is in cannot be
  * captured automatically.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_MULTI_CURRENCY', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_MULTI_CURRENCY');
+define('PAYPAL_PAYMENT_STATUS_MULTI_CURRENCY', 'PAYPAL_PAYMENT_STATUS_MULTI_CURRENCY');
 
 /**
  * A payment that is being reviewed for risk.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REVIEW', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REVIEW');
+define('PAYPAL_PAYMENT_STATUS_REVIEW', 'PAYPAL_PAYMENT_STATUS_REVIEW');
 
 /**
  * A payment that cannot be captured, because of account limitations.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_UPGRADE', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_UPGRADE');
+define('PAYPAL_PAYMENT_STATUS_UPGRADE', 'PAYPAL_PAYMENT_STATUS_UPGRADE');
 
 /**
  * A payment that cannot be captured, because it requires account verification.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_VERIFY', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_VERIFY');
+define('PAYPAL_PAYMENT_STATUS_VERIFY', 'PAYPAL_PAYMENT_STATUS_VERIFY');
 
 /**
  * A payment that was made using an eCheck that requires clearance.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CLEARANCE', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CLEARANCE');
+define('PAYPAL_PAYMENT_STATUS_WAITING_FOR_CLEARANCE', 'PAYPAL_PAYMENT_STATUS_WAITING_FOR_CLEARANCE');
 
 /**
  * A payment that cannot be captured, because the payer's address cannot be
  * captured automatically.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_ADDRESS', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_ADDRESS');
+define('PAYPAL_PAYMENT_STATUS_ADDRESS', 'PAYPAL_PAYMENT_STATUS_ADDRESS');
 
 /**
  * A payment that cannot be captured, because it was made to an email address
  * that is not yet registered or confirmed.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_UNILATERAL', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_UNILATERAL');
+define('PAYPAL_PAYMENT_STATUS_UNILATERAL', 'PAYPAL_PAYMENT_STATUS_UNILATERAL');
 
 /**
  * A payment that cannot be captured, because the payee holds a non-U.S.
  * account and dooes not have a withdrawal mechanism.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_INTL', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_INTL');
+define('PAYPAL_PAYMENT_STATUS_INTL', 'PAYPAL_PAYMENT_STATUS_INTL');
 
 /**
  * A payment that was successful, but of which the funds are held back.
  */
-define('MYNAMEISBART_PAYPAL_PAYMENT_STATUS_COMPLETED_FUNDS_HELD', 'MYNAMEISBART_PAYPAL_PAYMENT_STATUS_COMPLETED_FUNDS_HELD');
+define('PAYPAL_PAYMENT_STATUS_COMPLETED_FUNDS_HELD', 'PAYPAL_PAYMENT_STATUS_COMPLETED_FUNDS_HELD');
 
 /**
  * Implements hook_payment_status_info().
@@ -91,82 +91,82 @@ function paypal_payment_payment_status_info() {
   return array(
     new PaymentStatusInfo(array(
       'parent' => PAYMENT_STATUS_SUCCESS,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_CANCELLED_REVERSAL,
+      'status' => PAYPAL_PAYMENT_STATUS_CANCELLED_REVERSAL,
       'title' => t('Cancelled reversal'),
     )),
     new PaymentStatusInfo(array(
       'description' => t('The payee denied the payment.'),
       'parent' => PAYMENT_STATUS_FAILED,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_DENIED,
+      'status' => PAYPAL_PAYMENT_STATUS_DENIED,
       'title' => t('Denied'),
     )),
     new PaymentStatusInfo(array(
       'parent' => PAYMENT_STATUS_FAILED,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REFUNDED,
+      'status' => PAYPAL_PAYMENT_STATUS_REFUNDED,
       'title' => t('Refunded'),
     )),
     new PaymentStatusInfo(array(
       'parent' => PAYMENT_STATUS_FAILED,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_PARTIALLY_REFUNDED,
+      'status' => PAYPAL_PAYMENT_STATUS_PARTIALLY_REFUNDED,
       'title' => t('Partially refunded'),
     )),
     new PaymentStatusInfo(array(
       'parent' => PAYMENT_STATUS_FAILED,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REVERSED,
+      'status' => PAYPAL_PAYMENT_STATUS_REVERSED,
       'title' => t('Reversed'),
     )),
     new PaymentStatusInfo(array(
       'parent' => PAYMENT_STATUS_PENDING,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
+      'status' => PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
       'title' => t('Waiting for capture'),
     )),
     new PaymentStatusInfo(array(
-      'parent' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_MULTI_CURRENCY,
+      'parent' => PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
+      'status' => PAYPAL_PAYMENT_STATUS_MULTI_CURRENCY,
       'title' => t('Waiting for capture (currency cannot be accepted automatically)'),
     )),
     new PaymentStatusInfo(array(
       'parent' => PAYMENT_STATUS_PENDING,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_REVIEW,
+      'status' => PAYPAL_PAYMENT_STATUS_REVIEW,
       'title' => t('Being reviewed for risk'),
     )),
     new PaymentStatusInfo(array(
       'description' => t('The payment requires an account upgrade, before it can be captured.'),
-      'parent' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_UPGRADE,
+      'parent' => PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
+      'status' => PAYPAL_PAYMENT_STATUS_UPGRADE,
       'title' => t('Waiting for account upgrade'),
     )),
     new PaymentStatusInfo(array(
       'description' => t('The payment requires an account verification, before it can be captured.'),
-      'parent' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_VERIFY,
+      'parent' => PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
+      'status' => PAYPAL_PAYMENT_STATUS_VERIFY,
       'title' => t('Waiting for account verification'),
     )),
     new PaymentStatusInfo(array(
-      'parent' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_ADDRESS,
+      'parent' => PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
+      'status' => PAYPAL_PAYMENT_STATUS_ADDRESS,
       'title' => t("Waiting for capture (payer's address cannot be accepted automatically)"),
     )),
     new PaymentStatusInfo(array(
       'parent' => PAYMENT_STATUS_PENDING,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CLEARANCE,
+      'status' => PAYPAL_PAYMENT_STATUS_WAITING_FOR_CLEARANCE,
       'title' => t('Waiting for clearance'),
     )),
     new PaymentStatusInfo(array(
       'description' => t('The payment is pending because it was made to an email address that is not yet registered or confirmed.'),
       'parent' => PAYMENT_STATUS_PENDING,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_UNILATERAL,
+      'status' => PAYPAL_PAYMENT_STATUS_UNILATERAL,
       'title' => t('Waiting for email address confirmation'),
     )),
     new PaymentStatusInfo(array(
       'description' => t('The payment is pending because you hold a non-U.S. account and do not have a withdrawal mechanism.'),
-      'parent' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_INTL,
+      'parent' => PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
+      'status' => PAYPAL_PAYMENT_STATUS_INTL,
       'title' => t('Waiting for capture (international payment)'),
     )),
     new PaymentStatusInfo(array(
       'parent' => PAYMENT_STATUS_SUCCESS,
-      'status' => MYNAMEISBART_PAYPAL_PAYMENT_STATUS_COMPLETED_FUNDS_HELD,
+      'status' => PAYPAL_PAYMENT_STATUS_COMPLETED_FUNDS_HELD,
       'title' => t('Completed (funds are being held back)'),
     )),
   );
