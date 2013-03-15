@@ -7,7 +7,7 @@
 /**
  * A PayPal Express Checkout payment method.
  */
-class PayPalPaymentECPaymentMethodController extends PaymentMethodController {
+class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentMethodControllerBase {
 
   /**
    * Automatic funds capture.
@@ -20,39 +20,24 @@ class PayPalPaymentECPaymentMethodController extends PaymentMethodController {
   const CAPTURE_MANUAL = 'Authorization';
 
   /**
-   * The production server.
-   */
-  const SERVER_PRODUCTION = 0;
-
-  /**
-   * The sandbox server.
-   */
-  const SERVER_SANDBOX = 1;
-
-  /**
    * The production API server URL.
    */
-  const URL_API_SERVER = 'https://api-3t.paypal.com/nvp';
+  const NVP_API_URL_SERVER_PRODUCTION = 'https://api-3t.paypal.com/nvp';
 
   /**
    * The sandbox API server URL.
    */
-  const URL_API_SERVER_SANDBOX = 'https://api-3t.sandbox.paypal.com/nvp';
+  const NVP_API_URL_SERVER_SANDBOX = 'https://api-3t.sandbox.paypal.com/nvp';
 
   /**
    * The production checkout URL.
    */
-  const URL_CHECKOUT = 'https://www.paypal.com/cgi-bin/webscr';
+  const URL_CHECKOUT_PRODUCTION = 'https://www.paypal.com/cgi-bin/webscr';
 
   /**
    * The sandbox checkout URL.
    */
   const URL_CHECKOUT_SANDBOX = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-
-  /**
-   * The PayPAL API version that is used.
-   */
-  const PAYPAL_VERSION = '86';
 
   /**
    * The token lifetime, e.g. for how many seconds they are valid.
@@ -63,7 +48,7 @@ class PayPalPaymentECPaymentMethodController extends PaymentMethodController {
     'capture' => self::CAPTURE_AUTOMATIC,
     'email_address' => '',
     'password' => '',
-    'server' => self::SERVER_PRODUCTION,
+    'server' => self::NVP_API_SERVER_PRODUCTION,
     'signature' => '',
     'username' => '',
   );
@@ -101,36 +86,10 @@ class PayPalPaymentECPaymentMethodController extends PaymentMethodController {
 
     // Start checkout.
     if ($authentication) {
-      drupal_goto(self::checkoutURL($payment->method->controller_data['server'], $authentication->token));
+      drupal_goto($this->checkoutURL($payment->method->controller_data['server'], $authentication->token));
     }
     else {
       $payment->setStatus(new PaymentStatusItem(PAYMENT_STATUS_FAILED));
-    }
-  }
-
-  /**
-   * Returns the API server URL.
-   *
-   * @throws InvalidArgumentException
-   *
-   * @param string $server
-   *   One of the self::SERVER_* constants.
-   *
-   * @return string
-   */
-  function APIServerURL($server) {
-    static $urls = array(
-      self::SERVER_PRODUCTION => self::URL_API_SERVER,
-      self::SERVER_SANDBOX => self::URL_API_SERVER_SANDBOX,
-    );
-
-    if (isset($urls[$server])) {
-      return url($urls[$server], array(
-        'external' => TRUE,
-      ));
-    }
-    else {
-      throw new InvalidArgumentException(t('Server type does not exist.'));
     }
   }
 
@@ -140,16 +99,16 @@ class PayPalPaymentECPaymentMethodController extends PaymentMethodController {
    * @throws InvalidArgumentException
    *
    * @param string $server
-   *   One of the self::SERVER_* constants.
+   *   One of the self::NVP_API_SERVER_* constants.
    * @param string $token
    *   The PayPal checkout token received from setExpressCheckout.
    *
    * @return string
    */
   function checkoutURL($server, $token) {
-    static $urls = array(
-      self::SERVER_PRODUCTION => self::URL_CHECKOUT,
-      self::SERVER_SANDBOX => self::URL_CHECKOUT_SANDBOX,
+    $urls = array(
+      $this::NVP_API_SERVER_PRODUCTION => $this::URL_CHECKOUT_PRODUCTION,
+      $this::NVP_API_SERVER_SANDBOX => $this::URL_CHECKOUT_SANDBOX,
     );
 
     if (isset($urls[$server])) {
@@ -170,71 +129,6 @@ class PayPalPaymentECPaymentMethodController extends PaymentMethodController {
     return url($url, $options + array(
       'external' => TRUE,
     ));
-  }
-
-  /**
-   * Parses an API response.
-   *
-   * @param string $response
-   *
-   * @return array
-   */
-  function parseResponse($response) {
-    $nvp = array();
-    foreach (explode('&', $response) as $variable) {
-      $fragments = explode('=', $variable);
-      if (count($fragments) == 2) {
-        $nvp[$fragments[0]] = urldecode($fragments[1]);
-      }
-    }
-
-    return $nvp;
-  }
-
-  /**
-   * Executes an API request.
-   *
-   * @param array $nvp_request
-   *   NVP variables to POST.
-   * @param Payment $payment
-   *
-   * @return array|false
-   *   The NVP response data or FALSE in case of failure.
-   */
-  function request(array $nvp_request, Payment $payment) {
-    $nvp_request = array(
-      'USER' => $payment->method->controller_data['username'],
-      'PWD' => $payment->method->controller_data['password'],
-      'SIGNATURE' => $payment->method->controller_data['signature'],
-      'VERSION' => self::PAYPAL_VERSION,
-    ) + $nvp_request;
-
-    $post_data = array();
-    foreach ($nvp_request as $name => $value) {
-      $post_data[] = $name . '=' . urlencode($value);
-    }
-    $post_data = implode('&', $post_data);
-
-    $response = drupal_http_request(self::APIServerURL($payment->method->controller_data['server']), array(
-      'method' => 'POST',
-      'data' => $post_data,
-    ));
-
-    if (isset($response->error)) {
-      watchdog('paypal_payment_ec', 'An API request failed with error @code: %error.', array(
-        '@code' => $response->code,
-        '%error' => $response->error,
-      ), WATCHDOG_ERROR);
-      return FALSE;
-    }
-    else {
-      $nvp_response = $this->parseResponse($response->data);
-      if ($nvp_response
-      && isset($nvp_response['ACK']) && in_array($nvp_response['ACK'], array('Success', 'SuccessWithWarning'))) {
-        return $nvp_response;
-      }
-    }
-    return FALSE;
   }
 
   /**
@@ -259,7 +153,7 @@ class PayPalPaymentECPaymentMethodController extends PaymentMethodController {
       'EMAIL' => (!empty($user->mail)) ? $user->mail : '',
     ) + $this->paymentNVP($payment);
 
-    $nvp_response = $this->request($nvp_request, $payment);
+    $nvp_response = $this->NVPAPIRequest($nvp_request, $payment);
     if (isset($nvp_response['TOKEN']) && isset($nvp_response['TIMESTAMP'])) {
       $created = DateTime::createFromFormat(DateTime::ISO8601, $nvp_response['TIMESTAMP'])->getTimestamp();
       return new PayPalPaymentECAuthentication($nvp_response['TOKEN'], $created, $payment->pid);
@@ -283,7 +177,7 @@ class PayPalPaymentECPaymentMethodController extends PaymentMethodController {
       'METHOD' => 'GetExpressCheckoutDetails',
       'TOKEN' => $authentication->token,
     );
-    $nvp_response = $this->request($nvp_request, $payment);
+    $nvp_response = $this->NVPAPIRequest($nvp_request, $payment);
     if (isset($nvp_response['PAYERID'])) {
       $authentication->payerID = $nvp_response['PAYERID'];
       return TRUE;
@@ -308,7 +202,7 @@ class PayPalPaymentECPaymentMethodController extends PaymentMethodController {
       'PAYERID' => $authentication->payerID,
       'TOKEN' => $authentication->token,
     ) + $this->paymentNVP($payment);
-    $nvp_response = $this->request($nvp_request, $payment);
+    $nvp_response = $this->NVPAPIRequest($nvp_request, $payment);
     if (isset($nvp_response['PAYMENTINFO_0_PAYMENTSTATUS'])) {
       $payment_status = $this->convertStatus($nvp_response);
       $payment->setStatus(new PaymentStatusItem($payment_status));

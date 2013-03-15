@@ -26,21 +26,21 @@ class PayPalPaymentECPaymentExecution extends PaymentWebTestCase {
    * Tests payment execution.
    */
   function testPaymentExecutionSuccessAutomaticCapture() {
-    $this->assertPaymentExecution(PayPalPaymentECPaymentMethodController::SERVER_PRODUCTION, PayPalPaymentECPaymentMethodController::CAPTURE_AUTOMATIC, PAYMENT_STATUS_SUCCESS);
+    $this->assertPaymentExecution(PayPalPaymentECPaymentMethodController::NVP_API_SERVER_PRODUCTION, PayPalPaymentECPaymentMethodController::CAPTURE_AUTOMATIC, PAYMENT_STATUS_SUCCESS);
   }
 
   /**
    * Tests payment execution.
    */
   function testPaymentExecutionSuccessManualCapture() {
-    $this->assertPaymentExecution(PayPalPaymentECPaymentMethodController::SERVER_PRODUCTION, PayPalPaymentECPaymentMethodController::CAPTURE_MANUAL, PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE);
+    $this->assertPaymentExecution(PayPalPaymentECPaymentMethodController::NVP_API_SERVER_PRODUCTION, PayPalPaymentECPaymentMethodController::CAPTURE_MANUAL, PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE);
   }
 
   /**
    * Tests payment execution using the sandbox server.
    */
   function testPaymentExecutionFail() {
-    $this->assertPaymentExecution(PayPalPaymentECPaymentMethodController::SERVER_SANDBOX, PayPalPaymentECPaymentMethodController::CAPTURE_AUTOMATIC, PAYMENT_STATUS_FAILED);
+    $this->assertPaymentExecution(PayPalPaymentECPaymentMethodController::NVP_API_SERVER_SANDBOX, PayPalPaymentECPaymentMethodController::CAPTURE_AUTOMATIC, PAYMENT_STATUS_FAILED);
   }
 
   /**

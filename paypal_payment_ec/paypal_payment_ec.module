@@ -45,6 +45,7 @@ function paypal_payment_ec_entity_load(array $entities, $entity_type) {
       while ($data = $result->fetchAssoc()) {
         $payment_method = $entities[$data['pmid']];
         $payment_method->controller_data = (array) $data;
+        $payment_method->controller_data['server'] = (int) $payment_method->controller_data['server'];
         unset($payment_method->controller_data['pmid']);
       }
     }
@@ -129,8 +130,8 @@ function paypal_payment_ec_payment_method_configuration_form_elements(array $for
   $elements['workflow']['server'] = array(
     '#default_value' => $controller_data['server'],
     '#options' => array(
-      $controller::SERVER_PRODUCTION => ('Production'),
-      $controller::SERVER_SANDBOX => ('Sandbox'),
+      $controller::NVP_API_SERVER_PRODUCTION => ('Production'),
+      $controller::NVP_API_SERVER_SANDBOX => ('Sandbox'),
     ),
     '#required' => TRUE,
     '#title' => t('Server'),

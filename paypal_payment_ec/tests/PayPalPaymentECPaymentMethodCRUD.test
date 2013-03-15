@@ -36,7 +36,7 @@ class PayPalPaymentECPaymentMethodCRUD extends PayPalPaymentWebTestCase {
     $payment_method = new PaymentMethod(array(
       'controller' => $controller,
       'controller_data' => array(
-        'server' => $controller::SERVER_SANDBOX,
+        'server' => $controller::NVP_API_SERVER_SANDBOX,
         'capture' => $controller::CAPTURE_MANUAL,
       ),
     ));

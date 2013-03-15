@@ -46,9 +46,9 @@ function paypal_payment_ec_test_menu() {
 function paypal_payment_ec_test_url_outbound_alter(&$path, array &$options, $original_path) {
   $controller = payment_method_controller_load('PayPalPaymentECPaymentMethodController');
   $paths = array(
-    $controller::URL_API_SERVER => 'paypal_payment_ec_test/set_express_checkout/success',
-    $controller::URL_API_SERVER_SANDBOX => 'paypal_payment_ec_test/set_express_checkout/fail',
-    $controller::URL_CHECKOUT => 'paypal_payment_ec_test/checkout/success',
+    $controller::NVP_API_URL_SERVER_PRODUCTION => 'paypal_payment_ec_test/set_express_checkout/success',
+    $controller::NVP_API_URL_SERVER_SANDBOX => 'paypal_payment_ec_test/set_express_checkout/fail',
+    $controller::URL_CHECKOUT_PRODUCTION => 'paypal_payment_ec_test/checkout/success',
     $controller::URL_CHECKOUT_SANDBOX => 'paypal_payment_ec_test/checkout/fail',
   );
   if (isset($paths[$original_path])) {
@@ -88,7 +88,7 @@ function paypal_payment_ec_test_payment_form(PaymentMethod $payment_method) {
  */
 function paypal_payment_ec_test_api($success) {
   $controller = payment_method_controller_load('PayPalPaymentECPaymentMethodController');
-  $nvp_request = $controller::parseResponse(file_get_contents('php://input'));
+  $nvp_request = $controller->NVPAPIParseResponse(file_get_contents('php://input'));
   $nvp_response = array();
   if ($success && isset($nvp_request['METHOD'])) {
     if ($nvp_request['METHOD'] == 'SetExpressCheckout'
