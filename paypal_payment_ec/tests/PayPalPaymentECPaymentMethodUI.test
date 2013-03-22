@@ -36,11 +36,11 @@ class PayPalPaymentECPaymentMethodUI extends PayPalPaymentWebTestCase {
     $controller_class_name = 'PayPalPaymentECPaymentMethodController';
     $controller = payment_method_controller_load($controller_class_name);
     $controller_data = array(
-      'capture' => $controller_class_name::CAPTURE_MANUAL,
+      'capture' => $controller::CAPTURE_MANUAL,
       'email_address' => 'b@b.b',
       'password' => 'foobaz',
       'username' => 'foobar',
-      'server' => $controller_class_name::NVP_API_SERVER_SANDBOX,
+      'server' => $controller::NVP_API_SERVER_SANDBOX,
       'signature' => 'bazqux',
     ) + $controller->controller_data_defaults;
     $account = $this->drupalCreateUser(array('payment.payment_method.create.' . $controller_class_name));

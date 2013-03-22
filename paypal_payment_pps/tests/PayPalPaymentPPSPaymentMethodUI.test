@@ -37,8 +37,8 @@ class PayPalPaymentPPSPaymentMethodUI extends PayPalPaymentWebTestCase {
     $controller = payment_method_controller_load($controller_class_name);
     $controller_data = array(
       'email_address' => 'b@b.b',
-      'server' => $controller_class_name::SANDBOX_SERVER_URL,
-      'capture' => $controller_class_name::CAPTURE_MANUAL,
+      'server' => $controller::SANDBOX_SERVER_URL,
+      'capture' => $controller::CAPTURE_MANUAL,
     ) + $controller->controller_data_defaults;
     $account = $this->drupalCreateUser(array('payment.payment_method.create.' . $controller_class_name));
     $this->drupalLogin($account);

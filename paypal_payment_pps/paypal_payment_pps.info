@@ -4,7 +4,6 @@ package = Payment
 dependencies[] = paypal_payment
 dependencies[] = paypal_payment_ipn
 core = 7.x
-php = 5.3
 files[] = includes/PayPalPaymentPPSPaymentMethodController.inc
 files[] = tests/PayPalPaymentPPSPaymentExecution.test
 files[] = tests/PayPalPaymentPPSPaymentMethodCRUD.test
