@@ -14,7 +14,7 @@ function paypal_payment_pps_menu() {
     'title' => 'Go to payment server',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('paypal_payment_pps_form_redirect', 2),
-    'access callback' => 'paypal_payment_pps_redirect_access',
+    'access callback' => 'paypal_payment_pps_form_redirect_access',
     'access arguments' => array(2),
     'type' => MENU_CALLBACK,
   );
@@ -243,7 +243,7 @@ function paypal_payment_pps_form_redirect(array $form, array &$form_state, Payme
  *
  * @return bool
  */
-function paypal_payment_pps_redirect_access(Payment $payment, $account = NULL) {
+function paypal_payment_pps_form_redirect_access(Payment $payment, $account = NULL) {
   global $user;
 
   return is_a($payment->method->controller, 'PayPalPaymentPPSPaymentMethodController')
