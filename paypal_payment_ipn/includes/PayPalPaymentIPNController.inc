@@ -102,7 +102,7 @@ abstract class PayPalPaymentIPNController {
     $data = implode('&', $data);
 
     // Execute the request.
-    $url = empty($ipn_variables['test_ipn']) ? self::PAYPAL_IPN_SANDBOX_SERVER_URL : self::PAYPAL_IPN_SERVER_URL;
+    $url = empty($ipn_variables['test_ipn']) ? self::PAYPAL_IPN_SERVER_URL : self::PAYPAL_IPN_SANDBOX_SERVER_URL;
     // Use url() so we can alter the request using hook_url_outbound_alter().
     $url = url($url, array(
       'external' => TRUE,
