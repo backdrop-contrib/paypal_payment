@@ -12,6 +12,7 @@ class PayPalPaymentECPaymentMethodControllerTest extends PaymentWebTestCase {
 
   static function getInfo() {
     return array(
+      'description' => '',
       'name' => 'PayPalPaymentECPaymentMethodController',
       'group' => 'PayPal Express Checkout',
       'dependencies' => array('paypal_payment_ec'),

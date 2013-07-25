@@ -15,6 +15,7 @@ class PayPalPaymentECPaymentMethodCRUD extends PayPalPaymentWebTestCase {
    */
   static function getInfo() {
     return array(
+      'description' => '',
       'name' => 'Payment method CRUD',
       'group' => 'PayPal Express Checkout',
     );

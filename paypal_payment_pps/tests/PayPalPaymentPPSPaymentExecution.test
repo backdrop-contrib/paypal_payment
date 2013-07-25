@@ -12,6 +12,7 @@ class PayPalPaymentPPSPaymentExecution extends PaymentWebTestCase {
 
   static function getInfo() {
     return array(
+      'description' => '',
       'name' => 'Payment execution',
       'group' => 'PayPal Payments Standard',
       'dependencies' => array('paypal_payment_pps_test'),

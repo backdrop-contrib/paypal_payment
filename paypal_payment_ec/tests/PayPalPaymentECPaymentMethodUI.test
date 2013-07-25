@@ -15,6 +15,7 @@ class PayPalPaymentECPaymentMethodUI extends PayPalPaymentWebTestCase {
    */
   static function getInfo() {
     return array(
+      'description' => '',
       'name' => 'Payment method UI',
       'group' => 'PayPal Express Checkout',
     );

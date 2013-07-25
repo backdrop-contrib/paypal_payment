@@ -12,6 +12,7 @@ class PayPalPaymentECPaymentExecution extends PaymentWebTestCase {
 
   static function getInfo() {
     return array(
+      'description' => '',
       'name' => 'Payment execution',
       'group' => 'PayPal Express Checkout',
       'dependencies' => array('paypal_payment_ec_test'),

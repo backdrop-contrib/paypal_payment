@@ -12,6 +12,7 @@ class PayPalPaymentIPNListener extends PayPalPaymentIPNWebTestCase {
 
   static function getInfo() {
     return array(
+      'description' => '',
       'name' => 'IPN listener',
       'group' => 'PayPal IPN',
     );
