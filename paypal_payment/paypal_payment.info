@@ -2,7 +2,6 @@ name = PayPal
 description = Provides generic PayPal functionality.
 package = Payment
 dependencies[] = payment
-test_dependencies[] = xtools
 core = 7.x
 files[] = includes/PayPalPaymentNVPAPIPaymentMethodControllerBase.inc
 files[] = tests/PayPalPaymentWebTestCase.test
