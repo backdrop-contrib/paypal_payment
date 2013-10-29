@@ -97,7 +97,7 @@ abstract class PayPalPaymentIPNController {
     $ipn_variables['cmd'] = '_notify-validate';
     $data = '';
     foreach ($ipn_variables as $variable => $value) {
-      $data[] = $variable . '=' . urlencode($value);
+      $data[] = $variable . '=' . rawurlencode($value);
     }
     $data = implode('&', $data);
 

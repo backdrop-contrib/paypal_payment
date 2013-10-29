@@ -31,7 +31,7 @@ function paypal_payment_ipn_menu() {
 function paypal_payment_ipn_post() {
   $ipn_variables = $_POST;
   foreach ($_POST as $ipn_variable => $value) {
-    $ipn_variables[$ipn_variable] = urldecode($value);
+    $ipn_variables[$ipn_variable] = rawurldecode($value);
   }
   if (PayPalPaymentIPNController::acknowledge($ipn_variables) && PayPalPaymentIPNController::validate($ipn_variables)) {
     $ipn = new PayPalPaymentIPN($ipn_variables);
