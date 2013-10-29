@@ -280,6 +280,7 @@ function paypal_payment_pps_return_access() {
  * @return NULL
  */
 function paypal_payment_pps_return_cancel(Payment $payment) {
+  $payment->setStatus(new PaymentStatusItem(PAYMENT_STATUS_CANCELLED));
   $payment->finish();
 }
 
