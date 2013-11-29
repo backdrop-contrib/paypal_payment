@@ -194,7 +194,7 @@ function paypal_payment_pps_form_redirect(array $form, array &$form_state, Payme
     'lc' => $language->language,
     'invoice' => PayPalPaymentIPNController::invoiceID($payment->pid),
     // @todo Add line items separately.
-    'amount_1' => $payment->totalAmount(TRUE),
+    'amount_1' => (string) round($payment->totalAmount(TRUE), 2),
     'item_name_1' => t('@description at @site', array(
       '@description' => $payment->description,
       '@site' => variable_get('site_name', $base_url),
