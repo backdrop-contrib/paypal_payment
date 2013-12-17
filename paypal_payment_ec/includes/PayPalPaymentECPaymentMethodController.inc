@@ -123,6 +123,9 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
       'query' => array(
         'cmd' => '_express-checkout',
         'token' => $token,
+        // This module requires that users confirm their payments when they are
+        // at the Paypal site, and not when they have returned to Drupal.
+        'useraction' => 'commit',
       ),
     );
 
