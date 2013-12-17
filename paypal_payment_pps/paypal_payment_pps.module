@@ -121,8 +121,8 @@ function paypal_payment_pps_payment_method_configuration_form_elements(array $fo
   $elements['server'] = array(
     '#default_value' => $controller_data['server'],
     '#options' => array(
-      $controller::SERVER_URL => ('Production'),
-      $controller::SANDBOX_SERVER_URL => ('Sandbox'),
+      $controller::SERVER_URL => t('Production'),
+      $controller::SANDBOX_SERVER_URL => t('Sandbox'),
     ),
     '#required' => TRUE,
     '#title' => t('Server'),
