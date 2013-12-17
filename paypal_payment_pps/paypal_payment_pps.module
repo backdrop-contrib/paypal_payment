@@ -168,10 +168,6 @@ function paypal_payment_pps_form_redirect(array $form, array &$form_state, Payme
   $controller_data = $payment->method->controller_data;
 
   // Prepare POST data.
-  $total_quantity = 0;
-  foreach ($payment->line_items as $line_item) {
-    $total_quantity += $line_item->quantity;
-  }
   $return_url = url('paypal_payment_pps/return', array(
     'absolute' => TRUE,
   ));
@@ -193,15 +189,15 @@ function paypal_payment_pps_form_redirect(array $form, array &$form_state, Payme
     'currency_code' => $payment->currency_code,
     'lc' => $language->language,
     'invoice' => PayPalPaymentIPNController::invoiceID($payment->pid),
-    // @todo Add line items separately.
-    'amount_1' => (string) round($payment->totalAmount(TRUE), 2),
-    'item_name_1' => t('@description at @site', array(
-      '@description' => $payment->description,
-      '@site' => variable_get('site_name', $base_url),
-    )),
-    'on0_1' => t('Product count'),
-    'os0_1' => $total_quantity,
   );
+  // Add each line item separately. The first item starts at 1.
+  $index = 1;
+  foreach ($payment->line_items as $line_item) {
+    $data['amount_' . $index] = $line_item->totalAmount(TRUE);
+    $data['item_name_' . $index] = $line_item->name;
+    $data['quantity_' . $index] = $line_item->quantity;
+    $index++;
+  }
 
   // Build the form.
   $form['#action'] = url($controller_data['server'], array(
