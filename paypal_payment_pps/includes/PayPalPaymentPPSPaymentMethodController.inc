@@ -62,7 +62,10 @@ class PayPalPaymentPPSPaymentMethodController extends PaymentMethodController im
    * Implements PayPalPaymentIPNPaymentMethodControllerInterface::PayPalValidateIPNVariables().
    */
   static function PayPalValidateIPNVariables(Payment $payment, array $ipn_variables) {
-    return $ipn_variables['business'] == $payment->method->controller_data['email_address'];
+    // PayPal treats email addresses case-insensitively and returns them in
+    // lowercase in $ipn_variables['business']. Therefore we must perform
+    // a case-insensitive comparison.
+    return strtolower($ipn_variables['business']) == strtolower($payment->method->controller_data['email_address']);
   }
 
   /**
