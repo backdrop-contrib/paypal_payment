@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Contains PayPalPaymentPPSPaymentMethodController.
+ * Contains \PayPalPaymentPPSPaymentMethodController.
  */
 
 /**
@@ -29,39 +29,48 @@ class PayPalPaymentPPSPaymentMethodController extends PaymentMethodController im
    */
   const SANDBOX_SERVER_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
 
+  /**
+   * {@inheritdoc}
+   */
   public $controller_data_defaults = array(
     'email_address' => '',
     'server' => self::SERVER_URL,
     'capture' => self::CAPTURE_AUTOMATIC,
   );
 
+  /**
+   * {@inheritdoc}
+   */
   public $payment_method_configuration_form_elements_callback = 'paypal_payment_pps_payment_method_configuration_form_elements';
 
-  function __construct() {
+  /**
+   * Constructs a new instance.
+   */
+  public function __construct() {
     $currency_codes = array('AUD', 'BRL', 'CAD', 'CHF', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'ILS', 'JPY', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'SEK', 'SGD', 'THB', 'TRY', 'TWD', 'USD');
     $this->currencies = array_fill_keys($currency_codes, array());
     $this->title = 'PayPal Payments Standard';
   }
 
   /**
-   * Implements PaymentMethodController::validate().
+   * {@inheritdoc}
    */
-  function validate(Payment $payment, PaymentMethod $payment_method, $strict) {
+  public function validate(Payment $payment, PaymentMethod $payment_method, $strict) {
   }
 
   /**
-   * Implements PaymentMethodController::execute().
+   * {@inheritdoc}
    */
-  function execute(Payment $payment) {
+  public function execute(Payment $payment) {
     entity_save('payment', $payment);
     $_SESSION['paypal_payment_pps_pid'] = $payment->pid;
     drupal_goto('paypal_payment_pps/redirect/' . $payment->pid);
   }
 
   /**
-   * Implements PayPalPaymentIPNPaymentMethodControllerInterface::PayPalValidateIPNVariables().
+   * {@inheritdoc}
    */
-  static function PayPalValidateIPNVariables(Payment $payment, array $ipn_variables) {
+  public static function PayPalValidateIPNVariables(Payment $payment, array $ipn_variables) {
     // PayPal treats email addresses case-insensitively and returns them in
     // lowercase in $ipn_variables['business']. Therefore we must perform
     // a case-insensitive comparison.
@@ -69,8 +78,9 @@ class PayPalPaymentPPSPaymentMethodController extends PaymentMethodController im
   }
 
   /**
-   * Implements PayPalPaymentIPNPaymentMethodControllerInterface::PayPalProcessIPN().
+   * {@inheritdoc}
    */
-  static function PayPalProcessIPN(Payment $payment, array $ipn_variables) {
+  public static function PayPalProcessIPN(Payment $payment, array $ipn_variables) {
   }
+
 }

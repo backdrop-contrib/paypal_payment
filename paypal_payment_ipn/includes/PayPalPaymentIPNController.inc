@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Contains class PayPalPaymentIPNController.
+ * Contains \PayPalPaymentIPNController.
  */
 
 /**
@@ -29,7 +29,7 @@ abstract class PayPalPaymentIPNController {
    *
    * @return PayPalPaymentIPN|false
    */
-  static function load($txn_id) {
+  public static function load($txn_id) {
     $ipn_data = db_select('paypal_payment_ipn', 'mpi')
       ->fields('mpi')
       ->condition('txn_id', $txn_id)
@@ -47,10 +47,10 @@ abstract class PayPalPaymentIPNController {
    *
    * @param PayPalPaymentIPN $ipn
    *
-   * @return
-   *   The operation performed by drupal_write_record() on save.
+   * @return int
+   *   The db_merge() return value.
    */
-  static function save(PayPalPaymentIPN $ipn) {
+  public static function save(PayPalPaymentIPN $ipn) {
     $fields = array_intersect_key(get_object_vars($ipn), get_class_vars(get_class($ipn)));
     $merge_status = db_merge('paypal_payment_ipn')
       ->key(array(
@@ -65,10 +65,10 @@ abstract class PayPalPaymentIPNController {
   /**
    * Deletes an IPN.
    *
-   * @param integer txn_id
+   * @param integer $txn_id
    *   The PayPal transaction ID of the IPN to delete.
    */
-  static function delete($txn_id) {
+  public static function delete($txn_id) {
     db_delete('paypal_payment_ipn')
       ->condition('txn_id', $txn_id)
       ->execute();
@@ -77,7 +77,7 @@ abstract class PayPalPaymentIPNController {
   /**
    * Returns the IPN URL.
    */
-  static function URL() {
+  public static function URL() {
     return url(PAYPAL_IPN_LISTENER_PATH, array(
       'absolute' => TRUE,
     ));
@@ -92,7 +92,7 @@ abstract class PayPalPaymentIPNController {
    * @return bool
    *   Whether the IPN was valid and successfully acknowledged.
    */
-  static function acknowledge(array $ipn_variables) {
+  public static function acknowledge(array $ipn_variables) {
     // Prepare the request data.
     $ipn_variables['cmd'] = '_notify-validate';
     $data = '';
@@ -135,7 +135,7 @@ abstract class PayPalPaymentIPNController {
    *
    * @return boolean
    */
-  static function validate(array $ipn_variables) {
+  public static function validate(array $ipn_variables) {
     if (isset($ipn_variables['txn_id'])) {
       // Make sure this IPN was not processed before.
       $ipn = PayPalPaymentIPNController::load($ipn_variables['txn_id']);
@@ -168,7 +168,7 @@ abstract class PayPalPaymentIPNController {
    *
    * @return NULL
    */
-  static function process(array $ipn_variables) {
+  public static function process(array $ipn_variables) {
     $pid = self::PID($ipn_variables['invoice']);
     $payment = entity_load_single('payment', $pid);
     $payment->setStatus(new PaymentStatusItem(self::convertStatus($ipn_variables)));
@@ -185,7 +185,7 @@ abstract class PayPalPaymentIPNController {
    *
    * @return string
    */
-  static function hashPID($pid) {
+  public static function hashPID($pid) {
     return hash('sha256', $pid . drupal_get_hash_salt());
   }
 
@@ -198,7 +198,7 @@ abstract class PayPalPaymentIPNController {
    *
    * @return string
    */
-  static function invoiceID($pid) {
+  public static function invoiceID($pid) {
     return 'drupal_paypal_payment_ipn-' . self::hashPID($pid) . '-' . $pid;
   }
 
@@ -212,7 +212,7 @@ abstract class PayPalPaymentIPNController {
    * @return integer|false
    *   The PID, or FALSE if the invoice ID did not contain a valid PID.
    */
-  static function PID($invoice_id) {
+  public static function PID($invoice_id) {
     $fragments = explode('-', $invoice_id);
     if (count($fragments) == 3) {
       list(, $hash, $pid) = $fragments;
@@ -227,7 +227,7 @@ abstract class PayPalPaymentIPNController {
    * @return array
    *   Keys are PayPal statuses, values are Payment statuses.
    */
-  static function statusMap() {
+  public static function statusMap() {
     return array(
       'Canceled_Reversal' => PAYPAL_PAYMENT_STATUS_CANCELLED_REVERSAL,
       'Completed' => PAYMENT_STATUS_SUCCESS,
@@ -250,7 +250,7 @@ abstract class PayPalPaymentIPNController {
    * @return array
    *   Keys are PayPal pending reasons, values are Payment statuses.
    */
-  static function pendingStatusMap() {
+  public static function pendingStatusMap() {
     return array(
       'address' => PAYPAL_PAYMENT_STATUS_ADDRESS,
       'authorization' => PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE,
@@ -273,7 +273,7 @@ abstract class PayPalPaymentIPNController {
    *
    * @return string
    */
-  static function convertStatus(array $ipn_variables) {
+  public static function convertStatus(array $ipn_variables) {
     if (isset($ipn_variables['payment_status'])) {
       $paypal_status = $ipn_variables['payment_status'];
       if ($paypal_status == 'Pending') {
@@ -291,4 +291,5 @@ abstract class PayPalPaymentIPNController {
     }
     return PAYMENT_STATUS_UNKNOWN;
   }
+
 }

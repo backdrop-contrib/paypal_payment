@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Contains PayPalPaymentECAuthentication.
+ * Contains \PayPalPaymentECAuthentication.
  */
 
 /**
@@ -15,7 +15,7 @@ class PayPalPaymentECAuthentication {
    * @var integer
    *   A UNIX timestamp.
    */
-  public $created = NULL;
+  public $created;
 
   /**
    * The ID of the PayPal payer.
@@ -36,19 +36,22 @@ class PayPalPaymentECAuthentication {
    *
    * @var string
    */
-  public $token = NULL;
+  public $token;
 
   /**
-   * Constructor.
+   * Constructs a new class instance.
    *
    * @param string $token
-   *   See self::token.
-   * @param integer $created
-   *   See self::created.
+   *   See self::$token.
+   * @param int $created
+   *   See self::$created.
+   * @param int $pid
+   *   See self::$pid.
    */
-  function __construct($token = NULL, $created = NULL, $pid = 0) {
+  public function __construct($token = NULL, $created = NULL, $pid = 0) {
     $this->created = $created;
     $this->pid = $pid;
     $this->token = $token;
   }
+
 }

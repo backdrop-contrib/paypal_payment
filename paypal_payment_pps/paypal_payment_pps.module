@@ -110,7 +110,6 @@ function paypal_payment_pps_payment_method_configuration_form_elements(array $fo
   $payment_method = $form_state['payment_method'];
   $controller = $payment_method->controller;
   $controller_data = $payment_method->controller_data + $controller->controller_data_defaults;
-  $form = array();
 
   $elements['email_address'] = array(
     '#default_value' => $controller_data['email_address'],
@@ -162,7 +161,6 @@ function paypal_payment_pps_payment_method_configuration_form_elements_validate(
  * Form build callback: the redirect form.
  */
 function paypal_payment_pps_form_redirect(array $form, array &$form_state, Payment $payment) {
-  global $base_url;
   global $language;
 
   $controller_data = $payment->method->controller_data;
@@ -233,15 +231,13 @@ function paypal_payment_pps_form_redirect(array $form, array &$form_state, Payme
  *
  * @param Payment $payment
  *   The payment to check access to.
- * @param object $user
+ * @param object $account
  *   An optional user to check access for. If NULL, then the currently logged
  *   in user is used.
  *
  * @return bool
  */
 function paypal_payment_pps_form_redirect_access(Payment $payment, $account = NULL) {
-  global $user;
-
   return is_a($payment->method->controller, 'PayPalPaymentPPSPaymentMethodController')
     && payment_status_is_or_has_ancestor($payment->getStatus()->status, PAYMENT_STATUS_PENDING)
     && isset($_SESSION['paypal_payment_pps_pid']) && $_SESSION['paypal_payment_pps_pid'] == $payment->pid;
@@ -271,7 +267,7 @@ function paypal_payment_pps_return_access() {
 /**
  * Cancellation return callback.
  *
- * @return Payment
+ * @param Payment $payment
  *
  * @return NULL
  */

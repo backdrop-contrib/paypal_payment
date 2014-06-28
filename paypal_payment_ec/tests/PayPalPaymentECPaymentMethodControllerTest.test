@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains class PayPalPaymentECPaymentMethodControllerTest.
+ * Contains \PayPalPaymentECPaymentMethodControllerTest.
  */
 
 /**
@@ -10,7 +10,10 @@
  */
 class PayPalPaymentECPaymentMethodControllerTest extends PaymentWebTestCase {
 
-  static function getInfo() {
+  /**
+   * {@inheritdoc}
+   */
+  public static function getInfo() {
     return array(
       'description' => '',
       'name' => 'PayPalPaymentECPaymentMethodController',
@@ -19,14 +22,17 @@ class PayPalPaymentECPaymentMethodControllerTest extends PaymentWebTestCase {
     );
   }
 
-  function setUp(array $modules = array()) {
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp(array $modules = array()) {
     parent::setUp(array_merge($modules, array('paypal_payment_ec')));
   }
 
   /**
    * Tests saveAuthentication().
    */
-  function testsaveAuthentication() {
+  public function testsaveAuthentication() {
     $controller = payment_method_controller_load('PayPalPaymentECPaymentMethodController');
     $token = new PayPalPaymentECAuthentication('foo', time(), 1);
     $controller->saveAuthentication($token);
@@ -37,7 +43,7 @@ class PayPalPaymentECPaymentMethodControllerTest extends PaymentWebTestCase {
   /**
    * Tests loadAuthentication().
    */
-  function testloadAuthentication() {
+  public function testloadAuthentication() {
     $controller = payment_method_controller_load('PayPalPaymentECPaymentMethodController');
     $token = new PayPalPaymentECAuthentication('foo', time(), 1);
     $controller->saveAuthentication($token);
@@ -53,11 +59,12 @@ class PayPalPaymentECPaymentMethodControllerTest extends PaymentWebTestCase {
    * @depends testsaveAuthentication
    * @depends testloadAuthentication
    */
-  function testdeleteAuthentication() {
+  public function testdeleteAuthentication() {
     $controller = payment_method_controller_load('PayPalPaymentECPaymentMethodController');
     $token = new PayPalPaymentECAuthentication('foo', time(), 1);
     $controller->saveAuthentication($token);
     $controller->deleteAuthentication($token->pid);
     $this->assertEqual($controller->loadAuthentication($token->pid), FALSE);
   }
+
 }

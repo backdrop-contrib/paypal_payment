@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Contains PayPalPaymentECPaymentMethodController.
+ * Contains \PayPalPaymentECPaymentMethodController.
  */
 
 /**
@@ -44,6 +44,9 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
    */
   const PAYPAL_TOKEN_LIFETIME = 10800;
 
+  /**
+   * {@inheritdoc}
+   */
   public $controller_data_defaults = array(
     'capture' => self::CAPTURE_AUTOMATIC,
     'email_address' => '',
@@ -53,24 +56,30 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
     'username' => '',
   );
 
+  /**
+   * {@inheritdoc}
+   */
   public $payment_method_configuration_form_elements_callback = 'paypal_payment_ec_payment_method_configuration_form_elements';
 
-  function __construct() {
+  /**
+   * Constructs a new instance.
+   */
+  public function __construct() {
     $currency_codes = array('AUD', 'CAD', 'CHF', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'JPY', 'NOK', 'NZD', 'PLN', 'SEK', 'SGD', 'USD');
     $this->currencies = array_fill_keys($currency_codes, array());
     $this->title = 'PayPal Express Checkout';
   }
 
   /**
-   * Implements PaymentMethodController::validate().
+   * {@inheritdoc}
    */
-  function validate(Payment $payment, PaymentMethod $payment_method, $strict) {
+  public function validate(Payment $payment, PaymentMethod $payment_method, $strict) {
   }
 
   /**
-   * Implements PaymentMethodController::execute().
+   * {@inheritdoc}
    */
-  function execute(Payment $payment) {
+  public function execute(Payment $payment) {
     // Prepare the PayPal checkout token.
     $authentication = NULL;
     if ($payment->pid) {
@@ -105,7 +114,7 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
    *
    * @return string
    */
-  function checkoutURL($server, $token) {
+  public function checkoutURL($server, $token) {
     $urls = array(
       $this::NVP_API_SERVER_PRODUCTION => $this::URL_CHECKOUT_PRODUCTION,
       $this::NVP_API_SERVER_SANDBOX => $this::URL_CHECKOUT_SANDBOX,
@@ -142,7 +151,7 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
    * @return PayPalPaymentECAuthentication|false
    *   A PayPal checkout token or FALSE in case of failure.
    */
-  function setExpressCheckout(Payment $payment) {
+  public function setExpressCheckout(Payment $payment) {
     global $user;
 
     $return_url = url('paypal_payment_ec/return', array(
@@ -175,7 +184,7 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
    * @return bool
    *   Whether the request was successful.
    */
-  function getExpressCheckoutDetails(Payment $payment, PayPalPaymentECAuthentication $authentication) {
+  public function getExpressCheckoutDetails(Payment $payment, PayPalPaymentECAuthentication $authentication) {
     $nvp_request = array(
       'METHOD' => 'GetExpressCheckoutDetails',
       'TOKEN' => $authentication->token,
@@ -199,7 +208,7 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
    * @return bool
    *   Whether the request was successful.
    */
-  function doExpressCheckoutPayment(Payment $payment, $authentication) {
+  public function doExpressCheckoutPayment(Payment $payment, $authentication) {
     $nvp_request = array(
       'METHOD' => 'doExpressCheckoutPayment',
       'PAYERID' => $authentication->payerID,
@@ -223,7 +232,7 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
    *
    * @return array
    */
-  function paymentNVP(Payment $payment) {
+  public function paymentNVP(Payment $payment) {
     return array(
       'PAYMENTREQUEST_0_CURRENCYCODE' => $payment->currency_code,
       'PAYMENTREQUEST_0_AMT' => $payment->totalAmount(TRUE),
@@ -237,13 +246,12 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
   /**
    * Saves authentication information.
    *
-   * @param integer $pid
    * @param PayPalPaymentECAuthentication $authentication
    *
    * @return integer
    *   MergeQuery::STATUS_INSERT or MergeQuery::STATUS_NEW.
    */
-  function saveAuthentication(PayPalPaymentECAuthentication $authentication) {
+  public function saveAuthentication(PayPalPaymentECAuthentication $authentication) {
     $merge_status = db_merge('paypal_payment_ec_payment')
       ->key(array(
         'pid' => $authentication->pid,
@@ -255,6 +263,8 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
         'token' => $authentication->token,
       ))
       ->execute();
+
+    return $merge_status;
   }
 
   /**
@@ -269,7 +279,8 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
    * @return string|false
    *   The token, or FALSE in case of failure.
    */
-  function loadAuthentication($value, $property = 'pid') {
+  public function loadAuthentication($value, $property = 'pid') {
+    /** @var DatabaseStatementPrefetch $statement */
     $statement = db_select('paypal_payment_ec_payment', 'mpet')
       ->fields('mpet')
       ->condition($property, $value)
@@ -291,7 +302,7 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
    *
    * @return null
    */
-  function deleteAuthentication($pid) {
+  public function deleteAuthentication($pid) {
     db_delete('paypal_payment_ec_payment')
       ->condition('pid', $pid)
       ->execute();
@@ -303,7 +314,7 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
    * @return array
    *   Keys are PayPal statuses, values are Payment statuses.
    */
-  function statusMap() {
+  public function statusMap() {
     return array(
       'Canceled-Reversal' => PAYPAL_PAYMENT_STATUS_CANCELLED_REVERSAL,
       'In-Progress' => PAYMENT_STATUS_PENDING,
@@ -320,7 +331,7 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
    *
    * @return string
    */
-  function convertStatus(array $nvp_response) {
+  public function convertStatus(array $nvp_response) {
     if (isset($nvp_response['PAYMENTINFO_0_PAYMENTSTATUS'])) {
       $paypal_status = $nvp_response['PAYMENTINFO_0_PAYMENTSTATUS'];
       if ($paypal_status == 'Pending' && isset($nvp_response['PAYMENTINFO_0_PENDINGREASON'])) {
@@ -335,4 +346,5 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
     }
     return PAYMENT_STATUS_UNKNOWN;
   }
+
 }

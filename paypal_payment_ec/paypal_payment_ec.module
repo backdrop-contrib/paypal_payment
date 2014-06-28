@@ -174,7 +174,6 @@ function paypal_payment_ec_payment_method_configuration_form_elements_validate(a
  * Return callback.
  */
 function paypal_payment_ec_return() {
-  $authentication = new PayPalPaymentECAuthentication();
   $token = $_GET['token'];
   $controller = payment_method_controller_load('PayPalPaymentECPaymentMethodController');
   $authentication = $controller->loadAuthentication($token, 'token');

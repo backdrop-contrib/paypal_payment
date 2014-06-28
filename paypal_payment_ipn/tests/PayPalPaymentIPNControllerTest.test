@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains class PayPalPaymentIPNControllerTest.
+ * Contains \PayPalPaymentIPNControllerTest.
  */
 
 /**
@@ -11,9 +11,9 @@
 class PayPalPaymentIPNControllerTest extends PayPalPaymentIPNWebTestCase {
 
   /**
-   * Implements DrupalTestCase::getInfo().
+   * {@inheritdoc}
    */
-  static function getInfo() {
+  public static function getInfo() {
     return array(
       'description' => '',
       'name' => 'PayPalPaymentIPNController',
@@ -22,17 +22,17 @@ class PayPalPaymentIPNControllerTest extends PayPalPaymentIPNWebTestCase {
   }
 
   /**
-   * Overrides parent::setUp().
+   * {@inheritdoc}
    */
-  function setUp(array $modules = array()) {
+  public function setUp(array $modules = array()) {
     $this->profile = 'testing';
     parent::setUp($modules + array('paypal_payment_ipn_test'));
   }
 
   /**
-   * Test save().
+   * Tests save().
    */
-  function testSave() {
+  public function testSave() {
     $ipn_variables = $this->mockIPNVariables(9);
 
     // Test inserting an IPN.
@@ -48,11 +48,11 @@ class PayPalPaymentIPNControllerTest extends PayPalPaymentIPNWebTestCase {
   }
 
   /**
-   * Test load().
+   * Tests load().
    *
    * @depends testSave
    */
-  function testLoad() {
+  public function testLoad() {
     $ipn = new PayPalPaymentIPN();
     PayPalPaymentIPNController::save($ipn);
     $ipn_loaded = PayPalPaymentIPNController::load($ipn->txn_id);
@@ -62,11 +62,11 @@ class PayPalPaymentIPNControllerTest extends PayPalPaymentIPNWebTestCase {
   }
 
   /**
-   * Test delete().
+   * Tests delete().
    *
    * @depends testSave
    */
-  function testDelete() {
+  public function testDelete() {
     $ipn = new PayPalPaymentIPN();
     PayPalPaymentIPNController::save($ipn);
     PayPalPaymentIPNController::delete($ipn->txn_id);
@@ -79,27 +79,24 @@ class PayPalPaymentIPNControllerTest extends PayPalPaymentIPNWebTestCase {
   }
 
   /**
-   * Test URL().
+   * Tests URL().
    */
-  function testURL() {
-    $pid = 9;
+  public function testURL() {
     $this->assertTrue(valid_url(PayPalPaymentIPNController::URL(), TRUE));
   }
 
   /**
-   * Test acknowledge().
+   * Tests acknowledge().
    */
-  function testAcknowledge() {
+  public function testAcknowledge() {
     $this->assertTrue(PayPalPaymentIPNController::acknowledge($this->mockIPNVariables(9, TRUE)));
     $this->assertFalse(PayPalPaymentIPNController::acknowledge($this->mockIPNVariables(9, FALSE)));
   }
 
   /**
-   * Test validate().
-   *
-   * @depends testSave
+   * Tests validate().
    */
-  function testValidate() {
+  public function testValidate() {
     $payment_method = $this->paymentMethodCreate(2, payment_method_controller_load('PayPalPaymentIPNTestPaymentMethodController'));
     entity_save('payment_method', $payment_method);
     $payment = $this->paymentCreate(2, $payment_method);
@@ -136,25 +133,25 @@ class PayPalPaymentIPNControllerTest extends PayPalPaymentIPNWebTestCase {
   }
 
   /**
-   * Test hashPID().
+   * Tests hashPID().
    */
-  function testHashPID() {
+  public function testHashPID() {
     $this->assertTrue(is_string(PayPalPaymentIPNController::hashPID(3)));
   }
 
   /**
-   * Test invoiceID().
+   * Tests invoiceID().
    */
-  function testInvoiceID() {
+  public function testInvoiceID() {
     $this->assertTrue(is_string(PayPalPaymentIPNController::invoiceID(3)));
   }
 
   /**
-   * Test PID().
+   * Tests PID().
    *
    * @depends testInvoiceID
    */
-  function testPID() {
+  public function testPID() {
     $pid = 3;
     $valid_invoice_id = PayPalPaymentIPNController::invoiceID(3);
     $this->assertIdentical(PayPalPaymentIPNController::PID($valid_invoice_id), $pid);
@@ -163,9 +160,9 @@ class PayPalPaymentIPNControllerTest extends PayPalPaymentIPNWebTestCase {
   }
 
   /**
-   * Test statusMap().
+   * Tests statusMap().
    */
-  function testStatusMap() {
+  public function testStatusMap() {
     foreach (PayPalPaymentIPNController::statusMap() as $paypal_status => $payment_status) {
       $this->assertTrue(is_string($paypal_status));
       $this->assertTrue(is_string($payment_status));
@@ -173,9 +170,9 @@ class PayPalPaymentIPNControllerTest extends PayPalPaymentIPNWebTestCase {
   }
 
   /**
-   * Test pendingStatusMap().
+   * Tests pendingStatusMap().
    */
-  function testPendingStatusMap() {
+  public function testPendingStatusMap() {
     foreach (PayPalPaymentIPNController::pendingStatusMap() as $paypal_status => $payment_status) {
       $this->assertTrue(is_string($paypal_status));
       $this->assertTrue(is_string($payment_status));
@@ -183,13 +180,14 @@ class PayPalPaymentIPNControllerTest extends PayPalPaymentIPNWebTestCase {
   }
 
   /**
-   * Test convertStatus().
+   * Tests convertStatus().
    */
-  function testConvertStatus() {
+  public function testConvertStatus() {
     $ipn_variables = $this->mockIPNVariables(9);
     $this->assertEqual(PayPalPaymentIPNController::convertStatus($ipn_variables), PAYMENT_STATUS_SUCCESS);
     $ipn_variables['payment_status'] = 'Pending';
     $ipn_variables['pending_reason'] = 'multi-currency';
     $this->assertEqual(PayPalPaymentIPNController::convertStatus($ipn_variables), PAYPAL_PAYMENT_STATUS_MULTI_CURRENCY);
   }
+
 }

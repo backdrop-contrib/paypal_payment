@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Contains class PayPalPaymentIPN.
+ * Contains \PayPalPaymentIPN.
  */
 
 /**
@@ -30,11 +30,12 @@ class PayPalPaymentIPN {
   public $txn_id = '';
 
   /**
-   * Constructor.
+   * Constructs a new instance.
    */
-  function __construct(array $properties = array()) {
+  public function __construct(array $properties = array()) {
     foreach ($properties as $property => $value) {
       $this->$property = $value;
     }
   }
+
 }

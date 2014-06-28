@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Contains interface PayPalPaymentIPNPaymentMethodControllerInterface.
+ * Contains \PayPalPaymentIPNPaymentMethodControllerInterface.
  */
 
 /**
@@ -18,7 +18,7 @@ interface PayPalPaymentIPNPaymentMethodControllerInterface {
    * @return bool
    *   Whether the IPN variables are valid.
    */
-  static function PayPalValidateIPNVariables(Payment $payment, array $ipn_variables);
+  public static function PayPalValidateIPNVariables(Payment $payment, array $ipn_variables);
 
   /**
    * Processes an IPN for a payment.
@@ -28,5 +28,6 @@ interface PayPalPaymentIPNPaymentMethodControllerInterface {
    *
    * @return NULL
    */
-  static function PayPalProcessIPN(Payment $payment, array $ipn_variables);
+  public static function PayPalProcessIPN(Payment $payment, array $ipn_variables);
+
 }

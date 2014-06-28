@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains class PayPalPaymentPPSPaymentMethodCRUD.
+ * Contains \PayPalPaymentPPSPaymentMethodCRUD.
  */
 
 /**
@@ -11,9 +11,9 @@
 class PayPalPaymentPPSPaymentMethodCRUD extends PayPalPaymentWebTestCase {
 
   /**
-   * Implements DrupalTestCase::getInfo().
+   * {@inheritdoc}
    */
-  static function getInfo() {
+  public static function getInfo() {
     return array(
       'description' => '',
       'name' => 'Payment method CRUD',
@@ -22,9 +22,9 @@ class PayPalPaymentPPSPaymentMethodCRUD extends PayPalPaymentWebTestCase {
   }
 
   /**
-   * Overrides parent::setUp().
+   * {@inheritdoc}
    */
-  function setUp(array $modules = array()) {
+  public function setUp(array $modules = array()) {
     $this->profile = 'testing';
     parent::setUp($modules + array('paypal_payment_pps'));
   }
@@ -32,7 +32,7 @@ class PayPalPaymentPPSPaymentMethodCRUD extends PayPalPaymentWebTestCase {
   /**
    * Tests CRUD.
    */
-  function testCRUD() {
+  public function testCRUD() {
     $controller = payment_method_controller_load('PayPalPaymentPPSPaymentMethodController');
     $payment_method = new PaymentMethod(array(
       'controller' => $controller,
@@ -62,4 +62,5 @@ class PayPalPaymentPPSPaymentMethodCRUD extends PayPalPaymentWebTestCase {
       ->fetchField();
     $this->assertFalse($count);
   }
+
 }

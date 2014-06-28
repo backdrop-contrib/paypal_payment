@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains class PayPalPaymentPPSPaymentMethodCRUD.
+ * Contains \PayPalPaymentPPSPaymentMethodCRUD.
  */
 
 /**
@@ -11,9 +11,9 @@
 class PayPalPaymentPPSPaymentMethodUI extends PayPalPaymentWebTestCase {
 
   /**
-   * Implements DrupalTestCase::getInfo().
+   * {@inheritdoc}
    */
-  static function getInfo() {
+  public static function getInfo() {
     return array(
       'description' => '',
       'name' => 'Payment method UI',
@@ -22,9 +22,9 @@ class PayPalPaymentPPSPaymentMethodUI extends PayPalPaymentWebTestCase {
   }
 
   /**
-   * Overrides parent::setUp().
+   * {@inheritdoc}
    */
-  function setUp(array $modules = array()) {
+  public function setUp(array $modules = array()) {
     $this->profile = 'testing';
     parent::setUp($modules + array('paypal_payment_pps'));
   }
@@ -33,7 +33,7 @@ class PayPalPaymentPPSPaymentMethodUI extends PayPalPaymentWebTestCase {
    * Tests
    * PayPalPaymentPPSPaymentMethodController::payment_method_configuration_form_elements_callback.
    */
-  function testUI() {
+  public function testUI() {
     $controller_class_name = 'PayPalPaymentPPSPaymentMethodController';
     $controller = payment_method_controller_load($controller_class_name);
     $controller_data = array(
@@ -53,4 +53,5 @@ class PayPalPaymentPPSPaymentMethodUI extends PayPalPaymentWebTestCase {
     $payment_method_loaded = entity_load_single('payment_method', 1);
     $this->assertEqual($controller_data, $payment_method_loaded->controller_data);
   }
+
 }

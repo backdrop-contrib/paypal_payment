@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains class PayPalPaymentWebTestCase.
+ * Contains \PayPalPaymentWebTestCase.
  */
 
 /**
@@ -18,7 +18,7 @@ class PayPalPaymentWebTestCase extends DrupalWebTestCase {
    *
    * @return bool
    */
-  function paymentMethodControllerDataExists(PaymentMethod $payment_method, $table) {
+  public function paymentMethodControllerDataExists(PaymentMethod $payment_method, $table) {
     $query = db_select($table);
     $values = $payment_method->controller_data + $payment_method->controller->controller_data_defaults;
     foreach ($values as $property => $value) {
@@ -28,4 +28,5 @@ class PayPalPaymentWebTestCase extends DrupalWebTestCase {
 
     return (bool) $count;
   }
+
 }

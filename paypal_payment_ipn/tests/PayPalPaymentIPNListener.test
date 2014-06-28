@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains class PayPalPaymentIPNListener.
+ * Contains \PayPalPaymentIPNListener.
  */
 
 /**
@@ -10,7 +10,10 @@
  */
 class PayPalPaymentIPNListener extends PayPalPaymentIPNWebTestCase {
 
-  static function getInfo() {
+  /**
+   * {@inheritdoc}
+   */
+  public static function getInfo() {
     return array(
       'description' => '',
       'name' => 'IPN listener',
@@ -18,7 +21,10 @@ class PayPalPaymentIPNListener extends PayPalPaymentIPNWebTestCase {
     );
   }
 
-  function setUp(array $modules = array()) {
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp(array $modules = array()) {
     $this->profile = 'testing';
     parent::setUp($modules + array('paypal_payment_ipn_test'));
   }
@@ -26,7 +32,7 @@ class PayPalPaymentIPNListener extends PayPalPaymentIPNWebTestCase {
   /**
    * Tests the IPN listener.
    */
-  function testIPNListener() {
+  public function testIPNListener() {
     $payment_method = $this->paymentMethodCreate(2, payment_method_controller_load('PayPalPaymentIPNTestPaymentMethodController'));
     entity_save('payment_method', $payment_method);
     $payment = $this->paymentCreate(2, $payment_method);
@@ -51,4 +57,5 @@ class PayPalPaymentIPNListener extends PayPalPaymentIPNWebTestCase {
     $payment = entity_load_single('payment', $payment->pid);
     $this->assertNotEqual($original_payment_status, $payment->getStatus()->status);
   }
+
 }

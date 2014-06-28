@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains class PayPalPaymentIPNWebTestCase.
+ * Contains \PayPalPaymentIPNWebTestCase.
  */
 
 /**
@@ -20,7 +20,7 @@ abstract class PayPalPaymentIPNWebTestCase extends PaymentWebTestCase {
    *
    * @return array
    */
-  function mockIPNVariables($pid, $valid = TRUE) {
+  public function mockIPNVariables($pid, $valid = TRUE) {
     return array(
       'mc_gross' => '19.95',
       'protection_eligibility' => 'Eligible',
@@ -41,7 +41,7 @@ abstract class PayPalPaymentIPNWebTestCase extends PaymentWebTestCase {
    *
    * @return bool
    */
-  function IPNExists(PayPalPaymentIPN $ipn) {
+  public function IPNExists(PayPalPaymentIPN $ipn) {
     $query = db_select('paypal_payment_ipn', 'mpi');
     foreach (get_object_vars($ipn) as $property => $value) {
       if (property_exists(get_class($ipn), $property)) {
@@ -52,4 +52,5 @@ abstract class PayPalPaymentIPNWebTestCase extends PaymentWebTestCase {
 
     return (bool) $count;
   }
+
 }

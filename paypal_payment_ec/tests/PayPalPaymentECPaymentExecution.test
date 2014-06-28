@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains class PayPalPaymentECPaymentExecution.
+ * Contains \PayPalPaymentECPaymentExecution.
  */
 
 /**
@@ -10,7 +10,10 @@
  */
 class PayPalPaymentECPaymentExecution extends PaymentWebTestCase {
 
-  static function getInfo() {
+  /**
+   * {@inheritdoc}
+   */
+  public static function getInfo() {
     return array(
       'description' => '',
       'name' => 'Payment execution',
@@ -19,35 +22,38 @@ class PayPalPaymentECPaymentExecution extends PaymentWebTestCase {
     );
   }
 
-  function setUp(array $modules = array()) {
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp(array $modules = array()) {
     parent::setUp(array_merge($modules, array('paypal_payment_ec_test')));
   }
 
   /**
    * Tests payment execution.
    */
-  function testPaymentExecutionSuccessAutomaticCapture() {
+  public function testPaymentExecutionSuccessAutomaticCapture() {
     $this->assertPaymentExecution(PayPalPaymentECPaymentMethodController::NVP_API_SERVER_PRODUCTION, PayPalPaymentECPaymentMethodController::CAPTURE_AUTOMATIC, PAYMENT_STATUS_SUCCESS);
   }
 
   /**
    * Tests payment execution.
    */
-  function testPaymentExecutionSuccessManualCapture() {
+  public function testPaymentExecutionSuccessManualCapture() {
     $this->assertPaymentExecution(PayPalPaymentECPaymentMethodController::NVP_API_SERVER_PRODUCTION, PayPalPaymentECPaymentMethodController::CAPTURE_MANUAL, PAYPAL_PAYMENT_STATUS_WAITING_FOR_CAPTURE);
   }
 
   /**
    * Tests payment execution using the sandbox server.
    */
-  function testPaymentExecutionFail() {
+  public function testPaymentExecutionFail() {
     $this->assertPaymentExecution(PayPalPaymentECPaymentMethodController::NVP_API_SERVER_SANDBOX, PayPalPaymentECPaymentMethodController::CAPTURE_AUTOMATIC, PAYMENT_STATUS_FAILED);
   }
 
   /**
    * Asserts a correct payment execution.
    */
-  function assertPaymentExecution($server, $capture, $payment_status) {
+  public function assertPaymentExecution($server, $capture, $payment_status) {
     $payment_method = $this->paymentMethodCreate(2, payment_method_controller_load('PayPalPaymentECPaymentMethodController'));
     $payment_method->controller_data = array(
       'capture' => $capture,
@@ -61,4 +67,5 @@ class PayPalPaymentECPaymentExecution extends PaymentWebTestCase {
     $payment = entity_load_single('payment', $pid);
     $this->assertEqual($payment->getStatus()->status, $payment_status);
   }
+
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Contains PayPalPaymentNVPAPIPaymentMethodControllerBase.
+ * Contains \PayPalPaymentNVPAPIPaymentMethodControllerBase.
  */
 
 /**
@@ -34,6 +34,9 @@ abstract class PayPalPaymentNVPAPIPaymentMethodControllerBase extends PaymentMet
    */
   const NVP_API_PAYPAL_VERSION = '86';
 
+  /**
+   * {@inheritdoc}
+   */
   public $controller_data_defaults = array(
     'password' => '',
     'server' => self::NVP_API_SERVER_PRODUCTION,
@@ -51,7 +54,7 @@ abstract class PayPalPaymentNVPAPIPaymentMethodControllerBase extends PaymentMet
    *
    * @return string
    */
-  function NVPAPIServerURL($server) {
+  public function NVPAPIServerURL($server) {
     $urls = array(
       $this::NVP_API_SERVER_PRODUCTION => $this::NVP_API_URL_SERVER_PRODUCTION,
       $this::NVP_API_SERVER_SANDBOX => $this::NVP_API_URL_SERVER_SANDBOX,
@@ -73,7 +76,7 @@ abstract class PayPalPaymentNVPAPIPaymentMethodControllerBase extends PaymentMet
    *
    * @return array
    */
-  function NVPAPIParseResponse($response) {
+  public function NVPAPIParseResponse($response) {
     $nvp = array();
     foreach (explode('&', $response) as $variable) {
       $fragments = explode('=', $variable);
@@ -95,7 +98,7 @@ abstract class PayPalPaymentNVPAPIPaymentMethodControllerBase extends PaymentMet
    * @return array|false
    *   The NVP response data or FALSE in case of failure.
    */
-  function NVPAPIRequest(array $nvp_request, Payment $payment) {
+  public function NVPAPIRequest(array $nvp_request, Payment $payment) {
     $nvp_request = array(
       'USER' => $payment->method->controller_data['username'],
       'PWD' => $payment->method->controller_data['password'],
@@ -130,4 +133,5 @@ abstract class PayPalPaymentNVPAPIPaymentMethodControllerBase extends PaymentMet
     }
     return FALSE;
   }
+
 }

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains class PayPalPaymentPPSPaymentExecution.
+ * Contains \PayPalPaymentPPSPaymentExecution.
  */
 
 /**
@@ -10,7 +10,10 @@
  */
 class PayPalPaymentPPSPaymentExecution extends PaymentWebTestCase {
 
-  static function getInfo() {
+  /**
+   * {@inheritdoc}
+   */
+  public static function getInfo() {
     return array(
       'description' => '',
       'name' => 'Payment execution',
@@ -19,14 +22,17 @@ class PayPalPaymentPPSPaymentExecution extends PaymentWebTestCase {
     );
   }
 
-  function setUp(array $modules = array()) {
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp(array $modules = array()) {
     parent::setUp(array_merge($modules, array('paypal_payment_pps_test')));
   }
 
   /**
    * Tests payment execution.
    */
-  function testPaymentExecution() {
+  public function testPaymentExecution() {
     $payment_method = $this->paymentMethodCreate(2, payment_method_controller_load('PayPalPaymentPPSPaymentMethodController'));
     $payment_method->controller_data = array(
       'email_address' => 'b@b.b',
@@ -39,7 +45,7 @@ class PayPalPaymentPPSPaymentExecution extends PaymentWebTestCase {
   /**
    * Tests payment execution using the sandbox server.
    */
-  function testSandboxPaymentExecution() {
+  public function testSandboxPaymentExecution() {
     $payment_method = $this->paymentMethodCreate(2, payment_method_controller_load('PayPalPaymentPPSPaymentMethodController'));
     $payment_method->controller_data = array(
       'server' => PayPalPaymentPPSPaymentMethodController::SANDBOX_SERVER_URL,
@@ -51,7 +57,7 @@ class PayPalPaymentPPSPaymentExecution extends PaymentWebTestCase {
   /**
    * Asserts a correct payment execution.
    */
-  function assertPaymentExecution(PaymentMethod $payment_method) {
+  public function assertPaymentExecution(PaymentMethod $payment_method) {
     $data = array(
       
     );
@@ -60,4 +66,5 @@ class PayPalPaymentPPSPaymentExecution extends PaymentWebTestCase {
     $this->drupalPost(NULL, array(), t('Submit'));
     $this->assertURL('<front>');
   }
+
 }

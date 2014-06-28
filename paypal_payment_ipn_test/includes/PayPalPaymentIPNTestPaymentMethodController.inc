@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Contains PayPalPaymentIPNTestPaymentMethodController.
+ * Contains \PayPalPaymentIPNTestPaymentMethodController.
  */
 
 /**
@@ -9,20 +9,24 @@
  */
 class PayPalPaymentIPNTestPaymentMethodController extends PaymentMethodController implements PayPalPaymentIPNPaymentMethodControllerInterface {
 
-  function __construct() {
+  /**
+   * Constructs a new instance.
+   */
+  public function __construct() {
     $this->title = __CLASS__;
   }
 
   /**
-   * Implements PayPalPaymentIPNPaymentMethodControllerInterface::PayPalValidateIPNVariables().
+   * {@inheritdoc}
    */
-  static function PayPalValidateIPNVariables(Payment $payment, array $ipn_variables) {
+  public static function PayPalValidateIPNVariables(Payment $payment, array $ipn_variables) {
     return TRUE;
   }
 
   /**
-   * Implements PayPalPaymentIPNPaymentMethodControllerInterface::PayPalProcessIPN().
+   * {@inheritdoc}
    */
-  static function PayPalProcessIPN(Payment $payment, array $ipn_variables) {
+  public static function PayPalProcessIPN(Payment $payment, array $ipn_variables) {
   }
+
 }
