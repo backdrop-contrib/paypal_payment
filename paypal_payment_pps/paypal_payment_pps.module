@@ -201,6 +201,7 @@ function paypal_payment_pps_form_redirect(array $form, array &$form_state, Payme
   $form['#action'] = url($controller_data['server'], array(
     'external' => TRUE,
   ));
+  drupal_alter('paypal_payment_pps_data', $payment, $data);
   foreach ($data as $name => $value) {
     if (!empty($value)) {
       $form[$name] = array(
