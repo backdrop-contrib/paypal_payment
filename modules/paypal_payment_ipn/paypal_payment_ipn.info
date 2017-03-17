@@ -1,0 +1,12 @@
+name = PayPal IPN
+description = Updates payment statuses using PayPal Instant Payment Notifications.
+package = Payment
+dependencies[] = paypal_payment
+backdrop = 1.x
+type = module
+files[] = includes/PayPalPaymentIPN.inc
+files[] = includes/PayPalPaymentIPNController.inc
+files[] = includes/PayPalPaymentIPNPaymentMethodControllerInterface.inc
+files[] = tests/PayPalPaymentIPNControllerTest.test
+files[] = tests/PayPalPaymentIPNListener.test
+files[] = tests/PayPalPaymentIPNWebTestCase.test

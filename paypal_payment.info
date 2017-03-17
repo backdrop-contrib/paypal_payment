@@ -1,0 +1,8 @@
+name = PayPal
+description = Provides generic PayPal functionality.
+package = Payment
+dependencies[] = payment
+backdrop = 1.x
+type = module
+files[] = includes/PayPalPaymentNVPAPIPaymentMethodControllerBase.inc
+files[] = tests/PayPalPaymentWebTestCase.test
