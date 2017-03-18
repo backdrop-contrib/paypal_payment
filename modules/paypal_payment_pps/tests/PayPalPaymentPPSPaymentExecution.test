@@ -40,7 +40,7 @@ class PayPalPaymentPPSPaymentExecution extends PaymentWebTestCase {
       'email_address' => 'b@b.b',
       'server' => PayPalPaymentPPSPaymentMethodController::SANDBOX_SERVER_URL,
     );
-    entity_save('payment_method', $payment_method);
+    $payment_method->save();
     $this->assertPaymentExecution($payment_method);
   }
 
@@ -52,7 +52,7 @@ class PayPalPaymentPPSPaymentExecution extends PaymentWebTestCase {
     $payment_method->controller_data = array(
       'server' => PayPalPaymentPPSPaymentMethodController::SANDBOX_SERVER_URL,
     );
-    entity_save('payment_method', $payment_method);
+    $payment_method->save();
     $this->assertPaymentExecution($payment_method);
   }
 

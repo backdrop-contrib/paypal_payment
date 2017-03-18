@@ -144,7 +144,7 @@ abstract class PayPalPaymentIPNController {
         if (isset($ipn_variables['invoice'])) {
           $pid = self::PID($ipn_variables['invoice']);
           if ($pid) {
-            $payment = entity_load_single('payment', $pid);
+            $payment = entity_load('payment', $pid);
             if ($payment) {
               // Allow payment method controllers to completely take over validation.
               if ($payment->method->controller instanceof PayPalPaymentIPNPaymentMethodControllerInterface) {
@@ -170,9 +170,9 @@ abstract class PayPalPaymentIPNController {
    */
   public static function process(array $ipn_variables) {
     $pid = self::PID($ipn_variables['invoice']);
-    $payment = entity_load_single('payment', $pid);
+    $payment = entity_load('payment', $pid);
     $payment->setStatus(new PaymentStatusItem(self::convertStatus($ipn_variables)));
-    entity_save('payment', $payment);
+    $payment->save();
     if ($payment->method->controller instanceof PayPalPaymentIPNPaymentMethodControllerInterface) {
       $payment->method->controller->PayPalProcessIPN($payment, $ipn_variables);
     }

@@ -43,20 +43,20 @@ class PayPalPaymentECPaymentMethodCRUD extends PayPalPaymentWebTestCase {
         'capture' => $controller::CAPTURE_MANUAL,
       ),
     ));
-    entity_save('payment_method', $payment_method);
+    $payment_method->save();
     $this->assertTrue($this->paymentMethodControllerDataExists($payment_method, 'paypal_payment_ec_payment_method'));
 
     // Test loading a payment method.
-    $payment_method_loaded = entity_load_single('payment_method', $payment_method->pmid);
+    $payment_method_loaded = entity_load('payment_method', $payment_method->pmid);
     $this->assertEqual($payment_method->controller_data, $payment_method_loaded->controller_data);
 
     // Test updating a payment method.
     $payment_method->controller_data = $controller->controller_data_defaults;
-    entity_save('payment_method', $payment_method);
+    $payment_method->save();
     $this->assertTrue($this->paymentMethodControllerDataExists($payment_method, 'paypal_payment_ec_payment_method'));
 
     // Test deleting a payment method.
-    entity_delete('payment_method', $payment_method->pmid);
+    $payment_method->delete();
     $count = db_select('paypal_payment_ec_payment_method', 'mpi')
       ->condition('pmid', $payment_method->pmid)
       ->countQuery()

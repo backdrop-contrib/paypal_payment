@@ -114,7 +114,7 @@ function paypal_payment_ec_test_api($success) {
     && isset($nvp_request['PAYERID']) && $nvp_request['PAYERID'] === variable_get('paypal_payment_ec_test_payer_id')
     && isset($nvp_request['TOKEN'])) {
       $authentication = $controller::loadAuthentication($nvp_request['TOKEN'], 'token');
-      $payment = entity_load_single('payment', $authentication->pid);
+      $payment = entity_load('payment', $authentication->pid);
       if ($payment->method->controller_data['capture'] == $controller::CAPTURE_AUTOMATIC) {
         $nvp_response = array(
           'PAYMENTINFO_0_PAYMENTSTATUS' => 'Completed',

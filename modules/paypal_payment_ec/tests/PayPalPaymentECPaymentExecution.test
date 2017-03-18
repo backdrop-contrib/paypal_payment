@@ -62,11 +62,11 @@ class PayPalPaymentECPaymentExecution extends PaymentWebTestCase {
       'email_address' => 'b@b.b',
       'server' => $server,
     );
-    entity_save('payment_method', $payment_method);
+    $payment_method->save();
     $this->backdropPost('paypal_payment_ec_test/form/' . $payment_method->pmid, array(), t('Pay'));
     $this->assertURL('<front>');
     $pid = 1;
-    $payment = entity_load_single('payment', $pid);
+    $payment = entity_load('payment', $pid);
     $this->assertEqual($payment->getStatus()->status, $payment_status);
   }
 

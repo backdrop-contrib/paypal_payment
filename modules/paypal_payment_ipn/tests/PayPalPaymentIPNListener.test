@@ -36,9 +36,9 @@ class PayPalPaymentIPNListener extends PayPalPaymentIPNWebTestCase {
    */
   public function testIPNListener() {
     $payment_method = $this->paymentMethodCreate(2, payment_method_controller_load('PayPalPaymentIPNTestPaymentMethodController'));
-    entity_save('payment_method', $payment_method);
+    $payment_method->save();
     $payment = $this->paymentCreate(2, $payment_method);
-    entity_save('payment', $payment);
+    $payment->save();
     $original_payment_status = $payment->getStatus()->status;
 
     // Mock an IPN.
@@ -56,7 +56,7 @@ class PayPalPaymentIPNListener extends PayPalPaymentIPNWebTestCase {
 
     // Test that an IPN has been saved.
     $this->assertTrue(PayPalPaymentIPNController::load($ipn_variables['txn_id']));
-    $payment = entity_load_single('payment', $payment->pid);
+    $payment = entity_load('payment', $payment->pid);
     $this->assertNotEqual($original_payment_status, $payment->getStatus()->status);
   }
 

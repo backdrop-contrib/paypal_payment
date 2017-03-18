@@ -86,7 +86,7 @@ class PayPalPaymentECPaymentMethodController extends PayPalPaymentNVPAPIPaymentM
       $authentication = $this->loadAuthentication($payment->pid);
     }
     if (!$authentication) {
-      entity_save('payment', $payment);
+      $payment->save();
       $authentication = $this->setExpressCheckout($payment);
       if ($authentication) {
         $this->saveAuthentication($authentication);

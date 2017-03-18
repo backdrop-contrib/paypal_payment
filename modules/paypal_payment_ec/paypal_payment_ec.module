@@ -177,11 +177,11 @@ function paypal_payment_ec_return() {
   $token = $_GET['token'];
   $controller = payment_method_controller_load('PayPalPaymentECPaymentMethodController');
   $authentication = $controller->loadAuthentication($token, 'token');
-  $payment = entity_load_single('payment', $authentication->pid);
+  $payment = entity_load('payment', $authentication->pid);
   $checkout_status = $payment->method->controller->getExpressCheckoutDetails($payment, $authentication);
   if ($checkout_status) {
     if ($payment->method->controller->doExpressCheckoutPayment($payment, $authentication)) {
-      entity_save('payment', $payment);
+      $payment->save();
     }
   }
   $payment->finish();

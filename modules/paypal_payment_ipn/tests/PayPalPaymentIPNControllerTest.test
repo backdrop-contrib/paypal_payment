@@ -100,9 +100,9 @@ class PayPalPaymentIPNControllerTest extends PayPalPaymentIPNWebTestCase {
    */
   public function testValidate() {
     $payment_method = $this->paymentMethodCreate(2, payment_method_controller_load('PayPalPaymentIPNTestPaymentMethodController'));
-    entity_save('payment_method', $payment_method);
+    $payment_method->save();
     $payment = $this->paymentCreate(2, $payment_method);
-    entity_save('payment', $payment);
+    $payment->save();
 
     // Test valid IPN variables.
     $ipn_variables = $this->mockIPNVariables($payment->pid);
@@ -124,13 +124,13 @@ class PayPalPaymentIPNControllerTest extends PayPalPaymentIPNWebTestCase {
    */
   function testProcess() {
     $payment_method = $this->paymentMethodCreate(2, payment_method_controller_load('PayPalPaymentIPNTestPaymentMethodController'));
-    entity_save('payment_method', $payment_method);
+    $payment_method->save();
     $payment = $this->paymentCreate(2, $payment_method);
-    entity_save('payment', $payment);
+    $payment->save();
     $original_payment_status = $payment->getStatus()->status;
     $ipn_variables = $this->mockIPNVariables($payment->pid);
     PayPalPaymentIPNController::process($ipn_variables);
-    $payment = entity_load_single('payment', $payment->pid);
+    $payment = entity_load('payment', $payment->pid);
     $this->assertNotEqual($original_payment_status, $payment->getStatus()->status);
   }
 

@@ -58,7 +58,7 @@ class PayPalPaymentECPaymentMethodUI extends PayPalPaymentWebTestCase {
       'controller_form[workflow][server]' => $controller_data['server'],
       'controller_form[workflow][capture]' => $controller_data['capture'],
     ), t('Save'));
-    $payment_method_loaded = entity_load_single('payment_method', 1);
+    $payment_method_loaded = entity_load('payment_method', 1);
     $this->assertEqual($controller_data, $payment_method_loaded->controller_data);
   }
 

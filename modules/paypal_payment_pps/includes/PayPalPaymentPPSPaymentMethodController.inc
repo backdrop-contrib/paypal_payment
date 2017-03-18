@@ -62,7 +62,7 @@ class PayPalPaymentPPSPaymentMethodController extends PaymentMethodController im
    * {@inheritdoc}
    */
   public function execute(Payment $payment) {
-    entity_save('payment', $payment);
+    $payment->save();
     $_SESSION['paypal_payment_pps_pid'] = $payment->pid;
     backdrop_goto('paypal_payment_pps/redirect/' . $payment->pid);
   }

@@ -252,7 +252,7 @@ function paypal_payment_pps_return() {
   $ipn = new PayPalPaymentIPN($ipn_variables);
   PayPalPaymentIPNController::save($ipn);
   PayPalPaymentIPNController::process($ipn_variables);
-  $payment = entity_load_single('payment', PayPalPaymentIPNController::PID($ipn_variables['invoice']));
+  $payment = entity_load('payment', PayPalPaymentIPNController::PID($ipn_variables['invoice']));
   $payment->finish();
 }
 
