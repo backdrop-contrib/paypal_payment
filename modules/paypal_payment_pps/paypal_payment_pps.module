@@ -9,7 +9,7 @@
  * Implements hook_menu().
  */
 function paypal_payment_pps_menu() {
-  $items['paypal_payment_pps/redirect/%entity_object'] = array(
+  $items['paypal_payment_pps/redirect/%payment_object'] = array(
     'load arguments' => array('payment'),
     'title' => 'Go to payment server',
     'page callback' => 'backdrop_get_form',
@@ -185,7 +185,7 @@ function paypal_payment_pps_form_redirect(array $form, array &$form_state, Payme
     'rm' => 2,
     'paymentaction' => $controller_data['capture'],
     'currency_code' => $payment->currency_code,
-    'lc' => $language->language,
+    'lc' => $language->langcode,
     'invoice' => PayPalPaymentIPNController::invoiceID($payment->pid),
   );
   // Add each line item separately. The first item starts at 1.
